@@ -4,6 +4,7 @@ import React from "react";
 import { Star, ShieldCheck, ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ASSETS } from "@/config/assets";
+import Link from "next/link";
 
 export default function FeaturedProduct() {
   const { addToCart } = useCart();
@@ -13,7 +14,7 @@ export default function FeaturedProduct() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-center">
         {/* Left Side: Half image & Story */}
         <div className="lg:col-span-6 relative w-full h-[400px] md:h-[550px] animate-fade-in group select-none">
-          <div className="absolute inset-0 bg-cream rounded-3xl border border-primary/10 overflow-hidden flex items-center justify-center p-8 shadow-sm hover:shadow-xl transition-all duration-700">
+          <Link href="/products/ultra-grind-750w" className="absolute inset-0 bg-cream rounded-3xl border border-primary/10 overflow-hidden flex items-center justify-center p-8 shadow-sm hover:shadow-xl transition-all duration-700 block">
             <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
               <span className="bg-primary/95 text-white text-[10px] font-black px-2.5 py-1 uppercase rounded-full tracking-wider shadow-sm">
                 Limited Time Offer
@@ -28,7 +29,7 @@ export default function FeaturedProduct() {
               className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
               loading="lazy"
             />
-          </div>
+          </Link>
         </div>
 
         {/* Right Side: Copy, info, CTA */}
@@ -36,9 +37,11 @@ export default function FeaturedProduct() {
           <span className="text-primary text-xs md:text-sm font-black uppercase tracking-widest flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-primary rounded-full" /> Spotlight Collection
           </span>
-          <h2 className="text-3xl md:text-5xl font-black text-charcoal tracking-tight leading-[1.15]">
-            AeroCool Pro Elite Air Cooler
-          </h2>
+          <Link href="/products/ultra-grind-750w">
+            <h2 className="text-3xl md:text-5xl font-black text-charcoal tracking-tight leading-[1.15] hover:text-primary transition-colors">
+              AeroCool Pro Elite Air Cooler
+            </h2>
+          </Link>
 
           <div className="flex items-center gap-6 border-b border-gray-100 pb-4 mb-2 select-none">
             <div className="flex flex-col">

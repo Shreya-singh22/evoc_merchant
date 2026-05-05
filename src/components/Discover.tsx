@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Star, ShieldCheck } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ASSETS } from "@/config/assets";
+import Link from "next/link";
 
 const TABS = ["Best Sellers", "Value Combos", "New Arrivals"];
 
@@ -170,7 +171,7 @@ export default function Discover() {
               </div>
 
               {/* Hover-swap product image */}
-              <div className="relative w-full h-64 md:h-72 bg-cream/10 overflow-hidden flex items-center justify-center p-6 cursor-pointer">
+              <Link href={`/products/ultra-grind-750w`} className="relative w-full h-64 md:h-72 bg-cream/10 overflow-hidden flex items-center justify-center p-6 cursor-pointer block">
                 <img
                   src={p.image1}
                   alt={p.name}
@@ -183,7 +184,7 @@ export default function Discover() {
                   className="w-full h-full object-contain transition-opacity duration-500 opacity-0 group-hover:opacity-100 absolute inset-0 p-6 m-auto"
                   loading="lazy"
                 />
-              </div>
+              </Link>
 
               {/* Product Info & CTA */}
               <div className="p-5 md:p-6 flex flex-col flex-grow bg-white border-t border-gray-50 relative select-none">
@@ -200,9 +201,11 @@ export default function Discover() {
                   </span>
                 </div>
 
-                <h3 className="text-base md:text-lg font-black text-charcoal leading-tight mb-1 group-hover:text-primary transition-colors">
-                  {p.name}
-                </h3>
+                <Link href={`/products/ultra-grind-750w`} className="block w-fit">
+                  <h3 className="text-base md:text-lg font-black text-charcoal leading-tight mb-1 group-hover:text-primary transition-colors">
+                    {p.name}
+                  </h3>
+                </Link>
 
                 <p className="text-xs md:text-sm text-charcoal/60 font-normal leading-relaxed mb-4 flex-grow">
                   {p.description}

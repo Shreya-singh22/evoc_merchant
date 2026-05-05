@@ -3,6 +3,7 @@
 import React from "react";
 import { MoveRight } from "lucide-react";
 import { ASSETS } from "@/config/assets";
+import Link from "next/link";
 
 const CATEGORIES_SHOWCASE = [
   {
@@ -10,42 +11,42 @@ const CATEGORIES_SHOWCASE = [
     title: "Kitchen Appliances",
     subtitle: "Built for every family feast",
     image: ASSETS.categoryShowcase[0],
-    link: "#kitchen-appliances",
+    link: "/products/ultra-grind-750w",
   },
   {
     id: 2,
     title: "Summer Appliances",
     subtitle: "Air coolers and pedestal fans",
     image: ASSETS.categoryShowcase[1],
-    link: "#summer-appliances",
+    link: "/products/ultra-grind-750w",
   },
   {
     id: 3,
     title: "Winter Appliances",
     subtitle: "Intelligent water and room heating",
     image: ASSETS.categoryShowcase[2],
-    link: "#winter-appliances",
+    link: "/products/ultra-grind-750w",
   },
   {
     id: 4,
     title: "Mixer Grinders",
     subtitle: "Heavy duty performance",
     image: ASSETS.categoryShowcase[3],
-    link: "#mixer-grinders",
+    link: "/products/ultra-grind-750w",
   },
   {
     id: 5,
     title: "Personal Care",
     subtitle: "Smart hair dryers and straighteners",
     image: ASSETS.categoryShowcase[4],
-    link: "#personal-care",
+    link: "/products/ultra-grind-750w",
   },
   {
     id: 6,
     title: "Cleaning Devices",
     subtitle: "Garment steamers and vacuum cleaners",
     image: ASSETS.categoryShowcase[5],
-    link: "#cleaning-devices",
+    link: "/products/ultra-grind-750w",
   },
 ];
 
@@ -68,7 +69,7 @@ export default function CategoryShowcase() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {CATEGORIES_SHOWCASE.map((cat) => (
-          <a
+          <Link
             key={cat.id}
             href={cat.link}
             className="group relative h-[300px] md:h-[380px] rounded-2xl overflow-hidden border border-primary/10 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 transition-all duration-500 flex flex-col justify-end cursor-pointer"
@@ -95,7 +96,7 @@ export default function CategoryShowcase() {
                 <MoveRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
