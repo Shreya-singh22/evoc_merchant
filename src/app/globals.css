@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #C8102E;
+  --color-secondary: #F8F1E7;
+  --color-tertiary: #1A1A1A;
+  --color-accent: #C9A86A;
+  --color-success: #2D5A3D;
+  --color-brand-red: #C8102E;
+  --color-cream: #F8F1E7;
+  --color-charcoal: #1A1A1A;
+  --color-gold: #C9A86A;
+  --color-forest: #2D5A3D;
+}
+
+:root {
+  --background: #F8F1E7;
+  --foreground: #1A1A1A;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fraunces', serif;
+}
+
+p, span, div, a, button, input, select, textarea {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Marquee infinite scroll GSAP alternative or CSS fallback */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
