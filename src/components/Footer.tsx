@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="flex flex-col items-start gap-4 lg:col-span-2">
           <a href="/" className="flex items-center group select-none mb-2">
             <img 
-              src="/moonstruck-logo.png" 
+              src="moonstruck-logo.png" 
               alt="Moonstruck Logo" 
               className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all"
               onError={(e) => {

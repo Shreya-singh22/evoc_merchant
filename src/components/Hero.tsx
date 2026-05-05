@@ -51,7 +51,7 @@ export default function Hero() {
     <div className="relative w-full overflow-hidden select-none bg-cream flex">
       {/* Primary Hero Banner Image */}
       <img
-        src="/moonstruck-banner.jpg"
+        src="moonstruck-banner.jpg"
         alt="Elevate Your Home with Celestial Craftsmanship"
         className="w-full h-auto object-cover"
         onError={(e) => {

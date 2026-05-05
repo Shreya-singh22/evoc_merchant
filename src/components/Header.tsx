@@ -75,7 +75,7 @@ export default function Header() {
         <div className="flex-shrink-0 flex items-center justify-center">
           <a href="/" className="flex items-center group select-none">
             <img 
-              src="/moonstruck-logo.jpg" 
+              src="moonstruck-logo.jpg" 
               alt="Moonstruck Logo" 
               className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
               style={{ mixBlendMode: 'multiply' }}
