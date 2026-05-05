@@ -8,7 +8,10 @@ import { Lock, MoveRight, ShieldCheck, CreditCard, Gift, PartyPopper } from "luc
 import Link from "next/link";
 
 export default function CheckoutClient() {
-  const { cartItems, setCartItems } = useCart() as any; // Need to add clearCart to context, or just manipulate local state for the demo
+  const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
+  const getMediaUrl = (src: string) => src.startsWith('http') ? src : `${BASE_PATH}${src}`;
+
+  const { cartItems, setCartItems } = useCart() as any;
   const [isSuccess, setIsSuccess] = useState(false);
 
   const subtotal = cartItems.reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
@@ -153,14 +156,14 @@ export default function CheckoutClient() {
               <div className="sticky top-28 bg-white p-6 md:p-8 rounded-2xl border border-primary/10 shadow-sm">
                 <h2 className="text-xl font-serif font-bold mb-6">Order Summary</h2>
                 
-                <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2">
+                <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto p-2 -mx-2">
                   {cartItems.map((item: any) => (
                     <div key={item.id} className="flex gap-4 items-center">
                       <div className="w-16 h-16 bg-cream/50 rounded-xl border border-primary/10 p-2 flex-shrink-0 flex items-center justify-center relative">
-                        <span className="absolute -top-2 -right-2 bg-charcoal text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+                        <span className="absolute -top-2.5 -right-2.5 bg-charcoal text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold shadow-sm z-10">
                           {item.quantity}
                         </span>
-                        <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
+                        <img src={getMediaUrl(item.image)} alt={item.name} className="w-full h-full object-contain" />
                       </div>
                       <div className="flex-grow">
                         <h4 className="text-sm font-bold text-charcoal line-clamp-1">{item.name}</h4>
