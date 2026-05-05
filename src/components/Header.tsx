@@ -98,9 +98,6 @@ export default function Header() {
           <button className="p-2 text-charcoal hover:text-primary transition-colors hover:bg-white rounded-full cursor-pointer hidden sm:flex">
             <Search size={22} />
           </button>
-          <button className="p-2 text-charcoal hover:text-primary transition-colors hover:bg-white rounded-full cursor-pointer">
-            <User size={22} />
-          </button>
           <button className="p-2 text-charcoal hover:text-primary transition-colors hover:bg-white rounded-full cursor-pointer relative hidden sm:flex">
             <Heart size={22} />
           </button>
