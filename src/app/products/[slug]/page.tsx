@@ -1,5 +1,5 @@
 import ProductDetailClient from "./ProductDetailClient";
-import { CartProvider } from "@/context/CartContext";
+
 
 export function generateStaticParams() {
   return [
@@ -9,8 +9,6 @@ export function generateStaticParams() {
 
 export default function ProductPage() {
   return (
-    <CartProvider>
-      <ProductDetailClient />
-    </CartProvider>
+    <ProductDetailClient />
   );
 }

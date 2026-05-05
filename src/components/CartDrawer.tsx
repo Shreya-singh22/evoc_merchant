@@ -3,6 +3,7 @@
 import React from "react";
 import { X, Trash2, ShoppingBag, MoveRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function CartDrawer() {
   const { cartItems, removeFromCart, updateQuantity, isCartOpen, setIsCartOpen } = useCart();
@@ -134,12 +135,13 @@ export default function CartDrawer() {
             <div className="bg-primary/5 border border-primary/10 rounded-xl p-3 text-[11px] text-primary font-bold text-center select-none">
               Free Pan-India Delivery and Installation Applied
             </div>
-            <button
-              onClick={() => alert("Proceeding to checkout via razorpay...")}
+            <Link
+              href="/checkout"
+              onClick={() => setIsCartOpen(false)}
               className="w-full bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 select-none shadow-md"
             >
               Secure Checkout <MoveRight size={18} />
-            </button>
+            </Link>
           </div>
         )}
       </div>

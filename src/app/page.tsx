@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CartProvider } from "@/context/CartContext";
+
 import PromoBar from "@/components/PromoBar";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -23,9 +23,8 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 
 export default function Home() {
   return (
-    <CartProvider>
-      <div className="flex flex-col min-h-screen select-none bg-cream text-charcoal pb-14 sm:pb-0">
-        {/* Top Promo Bar & Primary Navigation */}
+    <div className="flex flex-col min-h-screen select-none bg-cream text-charcoal pb-14 sm:pb-0">
+      {/* Top Promo Bar & Primary Navigation */}
         <div className="sticky top-0 z-40 w-full select-none">
           <PromoBar />
           <Header />
@@ -51,10 +50,9 @@ export default function Home() {
           <Newsletter />
         </main>
 
-        <Footer />
-        <CartDrawer />
-        <MobileBottomNav />
-      </div>
-    </CartProvider>
+      <Footer />
+      <CartDrawer />
+      <MobileBottomNav />
+    </div>
   );
 }
