@@ -19,6 +19,8 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartItems, setIsCartOpen } = useCart();
 
+  const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
+
   const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
@@ -73,9 +75,9 @@ export default function Header() {
 
         {/* Center Logo */}
         <div className="flex-shrink-0 flex items-center justify-center">
-          <a href="/" className="flex items-center group select-none">
+          <a href={`${BASE_PATH}/`} className="flex items-center group select-none">
             <img 
-              src="moonstruck-logo.jpg" 
+              src={`${BASE_PATH}/moonstruck-logo.jpg`} 
               alt="Moonstruck Logo" 
               className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
               style={{ mixBlendMode: 'multiply' }}
