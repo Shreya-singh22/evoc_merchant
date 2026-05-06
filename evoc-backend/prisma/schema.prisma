@@ -1,13 +1,59 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+
+// Core Catalog Models (Sameeha's Domain)
+
+
+model Product {
+  id            String    @id @default(uuid())
+  storeId       String // Multi-tenant isolation key
+  name          String
+  slug          String
+  description   String?
+  price         Float
+  stockQuantity Int       @default(0)
+  categoryId    String?
+  category      Category? @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([storeId, slug]) // A slug must be unique PER merchant store
+}
+
+model Category {
+  id       String  @id @default(uuid())
+  storeId  String // Multi-tenant isolation key
+  name     String
+  slug     String
+  parentId String? // For nested category trees
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([storeId, slug])
+}
+
+model StoreSettings {
+  id             String  @id @default(uuid())
+  storeId        String  @unique
+  logoUrl        String?
+  brandColor     String?
+  contactEmail   String?
+  shippingPolicy String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
