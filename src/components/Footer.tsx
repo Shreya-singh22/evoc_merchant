@@ -13,9 +13,10 @@ export default function Footer() {
         <div className="flex flex-col items-start gap-4 lg:col-span-2">
           <a href={`${BASE_PATH}/`} className="flex items-center group select-none mb-2">
             <img 
-              src={`${BASE_PATH}/moonstruck-logo.png`} 
+              src={`${BASE_PATH}/moonstruck-logo.jpg`} 
               alt="Moonstruck Logo" 
-              className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all"
+              className="h-10 md:h-12 w-auto object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all"
+              style={{ filter: "invert(1) hue-rotate(180deg)", mixBlendMode: "screen" }}
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
                 (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');

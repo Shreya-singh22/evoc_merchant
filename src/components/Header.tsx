@@ -119,7 +119,7 @@ export default function Header() {
       <div className="hidden md:flex border-t border-primary/10 bg-cream max-w-7xl mx-auto justify-center px-6">
         <nav className="flex items-center gap-10 h-10 select-none">
           <a
-            href="#discover"
+            href={`${BASE_PATH}/products`}
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             All Products
