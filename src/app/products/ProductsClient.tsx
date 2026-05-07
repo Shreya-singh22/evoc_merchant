@@ -160,16 +160,20 @@ export default function ProductsClient() {
 
   // --- Filter and Sort logic ---
   const filteredProducts = useMemo(() => {
-    return PRODUCTS_CATALOG.filter((product) => {
+    return (PRODUCTS_CATALOG || []).filter((product) => {
+      if (!product) return false;
+
       // 1. Availability Filter
       if (currentInStockOnly && !product.inStock) return false;
 
       // 2. Price Filter
-      if (product.price < currentMinPrice || product.price > currentMaxPrice) return false;
+      const price = product.price || 0;
+      if (price < currentMinPrice || price > currentMaxPrice) return false;
 
       // 3. Category Filter (Matches tags)
       if (currentSelectedCategories.length > 0) {
-        const matchesCategory = product.tags.some((tag) =>
+        const tags = product.tags || [];
+        const matchesCategory = tags.some((tag) =>
           currentSelectedCategories.includes(tag)
         );
         if (!matchesCategory) return false;
@@ -177,29 +181,29 @@ export default function ProductsClient() {
 
       return true;
     }).sort((a, b) => {
+      if (!a || !b) return 0;
+
       // 4. Sorting logic
       switch (currentSort) {
         case "best-selling":
-          // Sorted by reviews count as popularity proxy
-          return b.reviewsCount - a.reviewsCount;
+          return (b.reviewsCount || 0) - (a.reviewsCount || 0);
         case "alphabetical-az":
-          return a.title.localeCompare(b.title);
+          return (a.title || "").localeCompare(b.title || "");
         case "alphabetical-za":
-          return b.title.localeCompare(a.title);
+          return (b.title || "").localeCompare(a.title || "");
         case "price-asc":
-          return a.price - b.price;
+          return (a.price || 0) - (b.price || 0);
         case "price-desc":
-          return b.price - a.price;
+          return (b.price || 0) - (a.price || 0);
         case "date-new-old":
-          return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+          return new Date(b.dateAdded || 0).getTime() - new Date(a.dateAdded || 0).getTime();
         case "date-old-new":
-          return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime();
+          return new Date(a.dateAdded || 0).getTime() - new Date(b.dateAdded || 0).getTime();
         case "featured":
         default:
-          // Default sorting prioritizing "Best Seller" tag, then ID
-          const aFeatured = a.tags.includes("Best Seller") ? 1 : 0;
-          const bFeatured = b.tags.includes("Best Seller") ? 1 : 0;
-          return bFeatured - aFeatured || a.id.localeCompare(b.id);
+          const aFeatured = (a.tags || []).includes("Best Seller") ? 1 : 0;
+          const bFeatured = (b.tags || []).includes("Best Seller") ? 1 : 0;
+          return bFeatured - aFeatured || (a.id || "").localeCompare(b.id || "");
       }
     });
   }, [currentSort, currentInStockOnly, currentSelectedCategories, currentMinPrice, currentMaxPrice]);
@@ -489,21 +493,24 @@ export default function ProductsClient() {
               // --- Active Product Grid ---
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 animate-fade-in">
                 {filteredProducts.map((product) => {
-                  const isSaved = wishlist.includes(product.id);
-                  const isOutOfStock = !product.inStock;
+                  const isSaved = wishlist.includes(product?.id || "");
+                  const isOutOfStock = !product?.inStock;
+                  const productCompareAt = product?.compareAt || 0;
+                  const productPrice = product?.price || 0;
+                  const productTags = product?.tags || [];
                   return (
                     <article
-                      key={product.id}
+                      key={product?.id || ""}
                       className="group bg-white border border-primary/10 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 transition-all duration-300 flex flex-col h-full relative cursor-pointer"
                     >
                       {/* Top Badges & Actions */}
                       <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 pointer-events-none">
-                        {product.compareAt > product.price && (
+                        {productCompareAt > productPrice && (
                           <span className="bg-primary text-white text-[9px] font-black px-2.5 py-1 uppercase rounded-full tracking-wider shadow-sm">
-                            Save {product.discountPct}%
+                            Save {product?.discountPct || 0}%
                           </span>
                         )}
-                        {product.tags.includes("Best Seller") && (
+                        {productTags.includes("Best Seller") && (
                           <span className="bg-gold text-charcoal text-[9px] font-black px-2.5 py-1 uppercase rounded-full tracking-wider shadow-sm">
                             Best Seller
                           </span>
@@ -519,10 +526,10 @@ export default function ProductsClient() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleWishlist(product.id);
+                          toggleWishlist(product?.id || "");
                         }}
                         className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 backdrop-blur-xs border border-primary/10 shadow-xs hover:scale-110 active:scale-95 transition-all text-charcoal"
-                        aria-label={`Toggle wishlist for ${product.title}`}
+                        aria-label={`Toggle wishlist for ${product?.title || ""}`}
                       >
                         <Heart
                           size={15}
@@ -531,17 +538,17 @@ export default function ProductsClient() {
                       </button>
 
                       {/* Product Image Swap Area */}
-                      <a href={`${BASE_PATH}/products/${product.slug}`} className="relative aspect-square w-full overflow-hidden bg-cream/10 border-b border-primary/5 block">
+                      <a href={`${BASE_PATH}/products/${product?.slug || ""}`} className="relative aspect-square w-full overflow-hidden bg-cream/10 border-b border-primary/5 block">
                         <img
-                          src={product.images[0]}
-                          alt={product.title}
+                          src={product?.images?.[0] || ""}
+                          alt={product?.title || ""}
                           className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 absolute inset-0 opacity-100 group-hover:opacity-0"
                           loading="lazy"
                         />
-                        {product.images[1] && (
+                        {product?.images?.[1] && (
                           <img
-                            src={product.images[1]}
-                            alt={`${product.title} side view`}
+                            src={product?.images?.[1] || ""}
+                            alt={`${product?.title || ""} side view`}
                             className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 absolute inset-0 opacity-0 group-hover:opacity-100"
                             loading="lazy"
                           />
@@ -555,20 +562,20 @@ export default function ProductsClient() {
                           <div className="flex items-center text-gold">
                             <Star size={11} className="fill-gold text-gold" />
                           </div>
-                          <span className="text-[10px] font-bold text-charcoal/80">{product.rating}</span>
-                          <span className="text-[10px] text-charcoal/40 font-medium">({product.reviewsCount} reviews)</span>
+                          <span className="text-[10px] font-bold text-charcoal/80">{product?.rating || 0}</span>
+                          <span className="text-[10px] text-charcoal/40 font-medium">({product?.reviewsCount || 0} reviews)</span>
                         </div>
 
                         {/* Title & Technical features */}
                         <div className="flex flex-col gap-1 flex-grow">
                           <a
-                            href={`${BASE_PATH}/products/${product.slug}`}
+                            href={`${BASE_PATH}/products/${product?.slug || ""}`}
                             className="text-base font-serif font-black text-charcoal hover:text-primary transition-colors leading-tight line-clamp-2"
                           >
-                            {product.title}
+                            {product?.title || ""}
                           </a>
                           <p className="text-[10px] text-charcoal/50 leading-relaxed font-semibold line-clamp-2 uppercase mt-0.5 tracking-wide">
-                            {product.subtitle}
+                            {product?.subtitle || ""}
                           </p>
                         </div>
 
@@ -576,14 +583,14 @@ export default function ProductsClient() {
                         <div className="flex items-end justify-between border-t border-primary/5 pt-4 mt-1.5">
                           <div className="flex flex-col">
                             <div className="flex items-baseline gap-1.5">
-                              <span className="text-lg font-black text-charcoal">{formatCurrency(product.price)}</span>
-                              {product.compareAt > product.price && (
-                                <span className="text-xs text-charcoal/30 line-through font-medium">{formatCurrency(product.compareAt)}</span>
+                              <span className="text-lg font-black text-charcoal">{formatCurrency(productPrice)}</span>
+                              {productCompareAt > productPrice && (
+                                <span className="text-xs text-charcoal/30 line-through font-medium">{formatCurrency(productCompareAt)}</span>
                               )}
                             </div>
-                            {product.compareAt > product.price && (
+                            {productCompareAt > productPrice && (
                               <span className="text-[9px] text-green-700 font-extrabold bg-green-100/60 border border-green-200/50 px-1.5 py-0.5 rounded-md mt-1 w-fit uppercase">
-                                Save {formatCurrency(product.compareAt - product.price)}
+                                Save {formatCurrency(productCompareAt - productPrice)}
                               </span>
                             )}
                           </div>
@@ -594,11 +601,11 @@ export default function ProductsClient() {
                             onClick={(e) => {
                               e.stopPropagation();
                               addToCart({
-                                id: `${product.id}_default`,
-                                name: product.title,
-                                price: product.price,
-                                originalPrice: product.compareAt,
-                                image: product.images[0],
+                                id: `${product?.id || ""}_default`,
+                                name: product?.title || "",
+                                price: productPrice,
+                                originalPrice: productCompareAt,
+                                image: product?.images?.[0] || "",
                                 quantity: 1,
                                 variant: "Standard Edition",
                               });
@@ -606,7 +613,7 @@ export default function ProductsClient() {
                             className={`p-2.5 rounded-xl border border-primary/10 shadow-xs hover:border-primary transition-all text-charcoal hover:bg-primary hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:border-transparent ${
                               isOutOfStock ? "cursor-not-allowed" : "cursor-pointer"
                             }`}
-                            aria-label={`Quick add ${product.title} to cart`}
+                            aria-label={`Quick add ${product?.title || ""} to cart`}
                           >
                             <ShoppingCart size={15} />
                           </button>
