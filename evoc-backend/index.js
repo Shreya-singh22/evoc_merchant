@@ -16,8 +16,14 @@ app.use(express.json()); // Allows us to receive JSON in requests
 const productRoutes = require('./routes/products.routes');
 const categoryRoutes = require('./routes/categories.routes');
 
+// Day 2: Store metadata routes (settings, contact, policies)
+// When a request comes in starting with /api/store, Express hands it to storeRoutes.
+// storeRoutes then matches the rest of the path (/settings, /contact, /policies).
+const storeRoutes = require('./routes/store.routes');
+
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/store', storeRoutes); // Mounts: /api/store/settings, /api/store/contact, /api/store/policies
 
 // A simple test route
 app.get('/', (req, res) => {

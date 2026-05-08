@@ -1,4 +1,5 @@
 // evoc-backend/config/db.js
+require('dotenv').config();
 const { Pool } = require('pg');
 const { PrismaPg } = require('@prisma/adapter-pg');
 const { PrismaClient } = require('../generated/prisma');

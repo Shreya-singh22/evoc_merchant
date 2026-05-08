@@ -84,7 +84,64 @@ class CatalogClient {
       body: JSON.stringify({ productId, quantity })
     });
   }
+
+  // ─── DAY 2 SDK METHODS ────────────────────────────────────────────────────
+  // These mirror the new backend endpoints built on Day 2.
+  // The storefront (Next.js) will import this SDK and call these methods
+  // in Server Components — so the fetch happens server-side, not in the browser.
+
+  /**
+   * Fetches the visual branding for this store.
+   * Returns: { storeName, logoUrl, brandColor, tagline }
+   *
+   * WHY: The storefront header/layout needs the logo URL and brand color
+   * to render correctly. Calling this once in the root layout is efficient.
+   */
+  async getStoreSettings() {
+    // _request automatically prepends this.baseUrl and sets Content-Type headers
+    return this._request('/store/settings', { method: 'GET' });
+  }
+
+  /**
+   * Fetches the contact information for this store.
+   * Returns: { email, phone, address, city, country }
+   *
+   * WHY: The storefront footer and /contact page need this data.
+   */
+  async getStoreContact() {
+    return this._request('/store/contact', { method: 'GET' });
+  }
+
+  /**
+   * Fetches the legal policy text for this store.
+   * Returns: { shippingPolicy, returnPolicy, privacyPolicy }
+   *
+   * WHY: The /shipping, /returns, /privacy pages on the storefront render this text.
+   * Keeping it in the DB means merchants can update it without code deploys.
+   */
+  async getStorePolicies() {
+    return this._request('/store/policies', { method: 'GET' });
+  }
+
+  /**
+   * Fetches SEO metadata for a specific product page.
+   * Returns: { title, description, canonical, openGraph, twitter, jsonLd }
+   *
+   * WHY: Next.js generateMetadata() calls this on the server before rendering
+   * the Product Detail Page (PDP). The returned data populates the <head>:
+   *   - <title> and <meta name="description">
+   *   - og:title, og:description, og:image (for social sharing previews)
+   *   - Twitter card tags
+   *   - application/ld+json (for Google rich results)
+   *
+   * @param {string} slug - The product slug e.g. "red-running-shoes"
+   */
+  async getProductSeoMeta(slug) {
+    // Note: slug is interpolated into the URL path, same pattern as getProductBySlug
+    return this._request(`/products/${slug}/meta`, { method: 'GET' });
+  }
 }
+
 
 // Export a single instance so we can reuse it anywhere in our app
 const catalogClient = new CatalogClient();

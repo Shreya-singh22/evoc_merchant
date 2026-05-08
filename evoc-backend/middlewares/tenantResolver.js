@@ -1,4 +1,4 @@
-// evoc-backend/middlewares/tenantResolver.js
+
 
 /**
  * Middleware to extract the merchant tenant ID from the request.
