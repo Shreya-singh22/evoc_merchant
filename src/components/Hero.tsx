@@ -55,7 +55,7 @@ export default function Hero() {
       <img
         src={`${BASE_PATH}/moonstruck-banner.jpg`}
         alt="Elevate Your Home with Celestial Craftsmanship"
-        className="w-full h-auto object-cover"
+        className="w-full aspect-[1600/750] object-cover"
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = 'none';
           (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
