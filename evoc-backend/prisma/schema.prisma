@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+// Core Catalog Models (Sameeha's Domain)
+
+model Product {
+  id            String    @id @default(uuid())
+  storeId       String    // Multi-tenant isolation key
+  name          String
+  slug          String
+  description   String?
+  price         Float
+  stockQuantity Int       @default(0)
+  categoryId    String?
+  category      Category? @relation(fields: [categoryId], references: [id])
+
+  // SEO fields — used by GET /api/products/:slug/meta
+  metaTitle       String?   // Custom <title> tag (defaults to product name if null)
+  metaDescription String?   // <meta name="description"> content
+  ogImageUrl      String?   // Open Graph image for social sharing previews
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([storeId, slug]) // A slug must be unique PER merchant store
+}
+
+model Category {
+  id       String  @id @default(uuid())
+  storeId  String  // Multi-tenant isolation key
+  name     String
+  slug     String
+  parentId String? // For nested category trees
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([storeId, slug])
+}
+
+// Branding & visual identity for a store (logo, colors, storefront name)
+model StoreSettings {
+  id          String  @id @default(uuid())
+  storeId     String  @unique
+  storeName   String?  // Display name of the store
+  logoUrl     String?
+  brandColor  String?  // Primary hex color e.g. "#6C63FF"
+  tagline     String?  // Short store tagline shown in the header
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Contact details for the store — shown in footer, contact pages
+model StoreContact {
+  id           String  @id @default(uuid())
+  storeId      String  @unique
+  email        String?
+  phone        String?
+  address      String?
+  city         String?
+  country      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Legal & operational text policies for the store
+model StorePolicy {
+  id             String  @id @default(uuid())
+  storeId        String  @unique
+  shippingPolicy String? // Markdown or plain text
+  returnPolicy   String?
+  privacyPolicy  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
