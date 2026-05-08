@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
+
 const SLIDES = [
   {
     id: 1,
@@ -51,7 +53,7 @@ export default function Hero() {
     <div className="relative w-full overflow-hidden select-none bg-cream flex">
       {/* Primary Hero Banner Image */}
       <img
-        src="moonstruck-banner.jpg"
+        src={`${BASE_PATH}/moonstruck-banner.jpg`}
         alt="Elevate Your Home with Celestial Craftsmanship"
         className="w-full h-auto object-cover"
         onError={(e) => {
