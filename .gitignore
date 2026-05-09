@@ -46,3 +46,10 @@ node_modules/
 dist/
 build/
 coverage/
+
+# local dev seed scripts
+seed-quick.mjs
+seed-product.mjs
+
+seed-quick.mjs
+seed-product.mjs
