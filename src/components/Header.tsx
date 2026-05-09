@@ -1,23 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, User, Heart, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-const CATEGORIES = [
-  "Kitchen Appliances",
-  "Mixer Grinders",
-  "Coolers",
-  "Fans",
-  "Irons",
-  "Winter Appliances",
-  "Summer Appliances",
-];
+
+import { api } from "@/lib/api";
 
 export default function Header() {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [categories, setCategories] = useState<string[]>([]);
   const { cartItems, setIsCartOpen } = useCart();
+
+  useEffect(() => {
+    api.getCategories().then(setCategories).catch(console.error);
+  }, []);
 
   const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
@@ -56,18 +54,18 @@ export default function Header() {
                   className="fixed inset-0 z-10 bg-transparent"
                   onClick={() => setIsMegaMenuOpen(false)}
                 />
-                <div className="absolute top-full left-0 mt-3 bg-white w-64 rounded-xl border border-primary/20 shadow-xl z-20 py-3 overflow-hidden animate-fade-in origin-top">
-                  {CATEGORIES.map((cat) => (
-                    <a
-                      key={cat}
-                      href={`#${cat.toLowerCase().replace(/\s+/g, "-")}`}
-                      onClick={() => setIsMegaMenuOpen(false)}
-                      className="block px-5 py-3 text-sm text-charcoal hover:bg-cream hover:text-primary transition-all font-medium border-b border-gray-50 last:border-0 hover:pl-6"
-                    >
-                      {cat}
-                    </a>
-                  ))}
-                </div>
+                  <div className="absolute top-full left-0 mt-3 bg-white w-64 rounded-xl border border-primary/20 shadow-xl z-20 py-3 overflow-hidden animate-fade-in origin-top">
+                    {categories.map((cat) => (
+                      <a
+                        key={cat}
+                        href={`#${cat.toLowerCase().replace(/\s+/g, "-")}`}
+                        onClick={() => setIsMegaMenuOpen(false)}
+                        className="block px-5 py-3 text-sm text-charcoal hover:bg-cream hover:text-primary transition-all font-medium border-b border-gray-50 last:border-0 hover:pl-6 capitalize"
+                      >
+                        {cat}
+                      </a>
+                    ))}
+                  </div>
               </>
             )}
           </div>
@@ -159,12 +157,12 @@ export default function Header() {
               Categories
             </span>
             <div className="grid grid-cols-1 gap-2">
-              {CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <a
                   key={cat}
                   href={`#${cat.toLowerCase().replace(/\s+/g, "-")}`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-2 py-2.5 font-semibold text-charcoal hover:bg-cream hover:text-primary rounded-lg transition-colors border-b border-gray-50 last:border-0"
+                  className="block px-2 py-2.5 font-semibold text-charcoal hover:bg-cream hover:text-primary rounded-lg transition-colors border-b border-gray-50 last:border-0 capitalize"
                 >
                   {cat}
                 </a>

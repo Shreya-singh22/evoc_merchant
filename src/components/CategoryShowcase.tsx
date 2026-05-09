@@ -1,56 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MoveRight } from "lucide-react";
 import { ASSETS } from "@/config/assets";
 import Link from "next/link";
-
-const CATEGORIES_SHOWCASE = [
-  {
-    id: 1,
-    title: "Kitchen Appliances",
-    subtitle: "Built for every family feast",
-    image: ASSETS.categoryShowcase[0],
-    link: "/products/ultra-grind-750w",
-  },
-  {
-    id: 2,
-    title: "Summer Appliances",
-    subtitle: "Air coolers and pedestal fans",
-    image: ASSETS.categoryShowcase[1],
-    link: "/products/ultra-grind-750w",
-  },
-  {
-    id: 3,
-    title: "Winter Appliances",
-    subtitle: "Intelligent water and room heating",
-    image: ASSETS.categoryShowcase[2],
-    link: "/products/ultra-grind-750w",
-  },
-  {
-    id: 4,
-    title: "Mixer Grinders",
-    subtitle: "Heavy duty performance",
-    image: ASSETS.categoryShowcase[3],
-    link: "/products/ultra-grind-750w",
-  },
-  {
-    id: 5,
-    title: "Personal Care",
-    subtitle: "Smart hair dryers and straighteners",
-    image: ASSETS.categoryShowcase[4],
-    link: "/products/ultra-grind-750w",
-  },
-  {
-    id: 6,
-    title: "Cleaning Devices",
-    subtitle: "Garment steamers and vacuum cleaners",
-    image: ASSETS.categoryShowcase[5],
-    link: "/products/ultra-grind-750w",
-  },
-];
+import { api } from "@/lib/api";
 
 export default function CategoryShowcase() {
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    api.getCategories().then(setCategories).catch(console.error);
+  }, []);
+
+  const showcaseItems = (categories || []).slice(0, 6).map((cat, i) => ({
+    id: cat,
+    title: cat,
+    subtitle: "Explore our collection",
+    image: ASSETS.categoryShowcase[i % ASSETS.categoryShowcase.length],
+    link: `/products?category=${cat}`,
+  }));
   return (
     <section id="categories" className="py-20 md:py-28 max-w-7xl mx-auto px-4 md:px-6 bg-cream/20 select-none">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 animate-fade-in">
@@ -59,7 +28,7 @@ export default function CategoryShowcase() {
             <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Curated Essentials
           </span>
           <h2 className="text-3xl md:text-5xl font-black text-charcoal tracking-tight">
-            Shop by Signature Category
+            Shop by Category
           </h2>
           <p className="text-charcoal/70 text-sm md:text-base leading-relaxed">
             Find the right high-performance electrical appliances for your lifestyle.
@@ -68,7 +37,7 @@ export default function CategoryShowcase() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {CATEGORIES_SHOWCASE.map((cat) => (
+        {showcaseItems.map((cat) => (
           <Link
             key={cat.id}
             href={cat.link}
@@ -88,7 +57,7 @@ export default function CategoryShowcase() {
               <span className="text-white/80 font-bold text-xs md:text-sm uppercase tracking-wide">
                 {cat.subtitle}
               </span>
-              <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
+              <h3 className="text-2xl md:text-3xl font-black text-white leading-tight capitalize">
                 {cat.title}
               </h3>
               <div className="flex items-center gap-2 text-white/90 font-black text-sm uppercase tracking-wider group-hover:text-primary transition-colors mt-2">

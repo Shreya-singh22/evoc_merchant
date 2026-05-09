@@ -13,7 +13,16 @@ export interface Product {
   images: string[];
   rating: number;
   reviewsCount: number;
-  dateAdded: string; // ISO format for sorting by recency
+  dateAdded: string;
+  features: string[];
+  sold: string;
+  description: string;
+  name: string;
+  mrp: number;
+  savings: number;
+  coins: number;
+  stock: number;
+  variants: any[];
 }
 
 export const PRODUCTS_CATALOG: Product[] = [

@@ -4,23 +4,76 @@ import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
-import { Lock, MoveRight, ShieldCheck, CreditCard, Gift, PartyPopper } from "lucide-react";
-import Link from "next/link";
+import { Lock, MoveRight, ShieldCheck, CreditCard, Gift, PartyPopper, Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function CheckoutClient() {
   const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
-  const getMediaUrl = (src: string) => src.startsWith('http') ? src : `${BASE_PATH}${src}`;
+  const getMediaUrl = (src: string) => (src && typeof src === 'string') ? (src.startsWith('http') ? src : `${BASE_PATH}${src}`) : '';
 
   const { cartItems, setCartItems } = useCart() as any;
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Form State
+  const [formData, setFormData] = useState({
+    email: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: ""
+  });
 
   const subtotal = cartItems.reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
   const total = subtotal;
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSuccess(true);
-    // In a real app, clear cart here
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const orderData = {
+        customer: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode
+        },
+        items: cartItems.map((item: any) => ({
+          productId: item.id.split('_')[0],
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        subtotal,
+        tax: 0,
+        total
+      };
+
+      await api.createOrder("toys", orderData);
+      
+      setIsSuccess(true);
+      if (setCartItems) setCartItems([]);
+    } catch (err: any) {
+      console.error("Checkout error:", err);
+      setError(err.message || "Failed to place order.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSuccess) {
@@ -36,7 +89,7 @@ export default function CheckoutClient() {
             <p className="text-charcoal/70 mb-8">
               Thank you for choosing Moonstruck. Your premium home appliance is being prepared for dispatch.
             </p>
-            <Link 
+            <Link
               href="/"
               className="bg-primary hover:bg-primary/95 text-white font-black text-sm px-8 py-4 rounded-xl shadow-md transition-all inline-block uppercase tracking-wider"
             >
@@ -52,7 +105,7 @@ export default function CheckoutClient() {
   return (
     <div className="min-h-screen flex flex-col bg-cream text-charcoal">
       <Header />
-      
+
       <main className="flex-grow py-12 px-4 md:px-6 max-w-7xl mx-auto w-full">
         {cartItems.length === 0 ? (
           <div className="text-center py-20">
@@ -64,14 +117,14 @@ export default function CheckoutClient() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            
+
             {/* Left Column: Form */}
             <div className="lg:col-span-7">
               <h2 className="text-2xl font-serif font-bold mb-6 flex items-center gap-2">
                 Shipping Details
               </h2>
               <form onSubmit={handlePlaceOrder} className="space-y-8 bg-white p-6 md:p-8 rounded-2xl border border-primary/10 shadow-sm">
-                
+
                 {/* Contact Info */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-black uppercase tracking-wider text-charcoal/60 border-b border-primary/10 pb-2">
@@ -80,11 +133,11 @@ export default function CheckoutClient() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold">Email Address *</label>
-                      <input required type="email" placeholder="you@example.com" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
+                      <input required name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="you@example.com" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold">Phone Number *</label>
-                      <input required type="tel" placeholder="+91 98765 43210" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
+                      <input required name="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+91 98765 43210" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
                     </div>
                   </div>
                 </div>
@@ -97,29 +150,29 @@ export default function CheckoutClient() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold">First Name *</label>
-                      <input required type="text" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
+                      <input required name="firstName" type="text" value={formData.firstName} onChange={handleInputChange} className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold">Last Name *</label>
-                      <input required type="text" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
+                      <input required name="lastName" type="text" value={formData.lastName} onChange={handleInputChange} className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
                     </div>
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold">Street Address *</label>
-                    <input required type="text" placeholder="House number and street name" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
+                    <input required name="address" type="text" value={formData.address} onChange={handleInputChange} placeholder="House number and street name" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold">City *</label>
-                      <input required type="text" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
+                      <input required name="city" type="text" value={formData.city} onChange={handleInputChange} className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold">State *</label>
-                      <input required type="text" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
+                      <input required name="state" type="text" value={formData.state} onChange={handleInputChange} className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
                     </div>
                     <div className="flex flex-col gap-1.5 col-span-2 md:col-span-1">
                       <label className="text-xs font-bold">PIN Code *</label>
-                      <input required type="text" className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
+                      <input required name="zipCode" type="text" value={formData.zipCode} onChange={handleInputChange} className="px-4 py-3 bg-cream/50 border border-primary/20 rounded-xl text-sm focus:outline-none focus:border-primary transition-all" />
                     </div>
                   </div>
                 </div>
@@ -142,9 +195,16 @@ export default function CheckoutClient() {
                   </div>
                 </div>
 
+                {error && (
+                  <div className="p-4 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl">
+                    {error}
+                  </div>
+                )}
+
                 <button 
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base py-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-4"
+                  disabled={isLoading}
+                  className="w-full bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base py-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   <Lock size={16} /> Complete Order & Pay ₹{total}
                 </button>
@@ -155,7 +215,7 @@ export default function CheckoutClient() {
             <div className="lg:col-span-5 relative">
               <div className="sticky top-28 bg-white p-6 md:p-8 rounded-2xl border border-primary/10 shadow-sm">
                 <h2 className="text-xl font-serif font-bold mb-6">Order Summary</h2>
-                
+
                 <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto p-2 -mx-2">
                   {cartItems.map((item: any) => (
                     <div key={item.id} className="flex gap-4 items-center">

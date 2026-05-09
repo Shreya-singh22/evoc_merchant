@@ -8,43 +8,9 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import CartDrawer from "@/components/CartDrawer";
 import { Star, ShieldCheck, ShoppingCart, Plus, Minus, Share2, Mail, Truck, Zap, Percent, Play, ChevronDown, ChevronUp, CheckCircle2, Award } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { Product } from "@/data/products";
 
 const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
-
-const PRODUCT = {
-  id: "prod_ultra_grind",
-  slug: "ultra-grind-750w",
-  name: "Ultra-Grind 750W Mixer Grinder",
-  mrp: 4999,
-  price: 3499,
-  savings: 1500,
-  discountPercent: 30,
-  coins: 100,
-  rating: 4.8,
-  reviews: 142,
-  sold: "5,000+",
-  stock: 12,
-  description: "Engineered to outlast trends. Crafted with celestial precision for your kitchen.",
-  features: [
-    "Heavy-Duty 750W Copper Motor",
-    "4 Multi-Purpose Stainless Steel Jars",
-    "Advanced Overload Protection",
-    "3-Speed Control with Pulse Function",
-    "Anti-Skid Vacuum Feet",
-    "Easy-to-clean polished surface"
-  ],
-  images: [
-    "/products/ultra-grind/front.png",
-    "/products/ultra-grind/side.png",
-    "/products/ultra-grind/top.png",
-    "/products/ultra-grind/jars.png",
-    "/products/ultra-grind/inuse.png"
-  ],
-  variants: [
-    { type: "Wattage", options: ["750W", "1000W"] },
-    { type: "Color", options: ["Midnight Black", "Champagne Gold"] }
-  ]
-};
 
 const FAQ_ITEMS = [
   { q: "What is the warranty period?", a: "We offer a 2-year comprehensive warranty on the motor and a 1-year warranty on the product body." },
@@ -60,25 +26,22 @@ const WATCH_REELS = [
   { id: 4, video: "https://assets.mixkit.co/videos/preview/mixkit-man-hand-adjusting-thermostat-on-air-conditioner-42588-large.mp4", title: "Quiet Operation" }
 ];
 
-
-
-
 // Helper to allow seamless switching between local public/ assets and Cloudinary URLs
-const getMediaUrl = (src: string) => src.startsWith('http') ? src : `${BASE_PATH}${src}`;
+const getMediaUrl = (src: string) => (src && typeof src === 'string') ? (src.startsWith('http') ? src : `${BASE_PATH}${src}`) : '';
 
 const ImageWithFallback = ({ src, alt, className }: any) => {
   const [error, setError] = useState(false);
   if (error) {
     return (
-      <div className={`flex items-center justify-center bg-charcoal text-gold ${className}`}>
-        <span className="text-4xl">✦</span>
+      <div className={`flex items-center justify-center bg-gray-100 text-gray-400 ${className}`}>
+        <span className="text-xs font-bold">No Image</span>
       </div>
     );
   }
   return <img src={getMediaUrl(src)} alt={alt} className={className} onError={() => setError(true)} />;
 };
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage({ product: PRODUCT }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(0);
   const [zoomStyle, setZoomStyle] = useState({ display: 'none', backgroundPosition: '0% 0%' });
   const [qty, setQty] = useState(1);
@@ -88,7 +51,7 @@ export default function ProductDetailPage() {
   });
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [showStickyBar, setShowStickyBar] = useState(false);
-  
+
   const { addToCart } = useCart();
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -130,7 +93,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-      <div className="flex flex-col min-h-screen select-none bg-cream/30 text-charcoal font-sans">
+    <div className="flex flex-col min-h-screen select-none bg-cream/30 text-charcoal font-sans">
       <div className="sticky top-0 z-50 w-full">
         <PromoBar />
         {/* We use existing header, but we might want to force it dark if it isn't, but the prompt says 'Reuse my existing Header'. 
@@ -153,10 +116,10 @@ export default function ProductDetailPage() {
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            
+
             {/* LEFT: Image Gallery */}
             <div className="lg:col-span-7 flex flex-col gap-4">
-              <div 
+              <div
                 className="relative w-full aspect-square bg-cream/10 rounded-2xl border border-primary/10 overflow-hidden cursor-crosshair group"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
@@ -167,15 +130,15 @@ export default function ProductDetailPage() {
                     Save -{PRODUCT.discountPercent}%
                   </span>
                 </div>
-                
-                <ImageWithFallback 
-                  src={PRODUCT.images[activeImage]} 
-                  alt={`${PRODUCT.name} — view ${activeImage + 1}`} 
+
+                <ImageWithFallback
+                  src={PRODUCT.images[activeImage]}
+                  alt={`${PRODUCT.name} — view ${activeImage + 1}`}
                   className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-300"
                 />
-                
+
                 {/* Zoom Overlay */}
-                <div 
+                <div
                   className="absolute inset-0 bg-no-repeat pointer-events-none"
                   style={{
                     ...zoomStyle,
@@ -188,7 +151,7 @@ export default function ProductDetailPage() {
               {/* Thumbnails */}
               <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                 {PRODUCT.images.map((img, idx) => (
-                  <button 
+                  <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
                     className={`w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all bg-white p-1 ${activeImage === idx ? 'border-gold shadow-[0_0_10px_rgba(201,168,106,0.3)] scale-105' : 'border-primary/10 hover:border-gold/50'}`}
@@ -201,13 +164,13 @@ export default function ProductDetailPage() {
 
             {/* RIGHT: Product Info */}
             <div className="lg:col-span-5 flex flex-col gap-6 items-start">
-              
+
               {/* Title & Rating Block */}
               <div className="flex flex-col gap-2 w-full">
                 <h1 className="text-3xl md:text-5xl font-serif font-black text-charcoal leading-[1.15]">
                   {PRODUCT.name}
                 </h1>
-                
+
                 <div className="flex items-center gap-4 border-b border-gray-200 pb-4 mt-2 mb-2 w-full">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -237,11 +200,11 @@ export default function ProductDetailPage() {
 
               {/* Key Features Bullets */}
               <div className="flex flex-col gap-2 w-full">
-                <span className="text-[10px] font-bold text-charcoal/40 uppercase tracking-widest mb-1">Celestial Features</span>
+                <span className="text-[10px] font-bold text-charcoal/40 uppercase tracking-widest mb-1">Product Features</span>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
                   {PRODUCT.features.map((feat, idx) => (
                     <li key={idx} className="text-xs md:text-sm text-charcoal/80 flex items-start gap-2">
-                      <span className="text-gold text-sm">✦</span> {feat}
+                      <span className="text-primary text-sm">•</span> {feat}
                     </li>
                   ))}
                 </ul>
@@ -286,11 +249,10 @@ export default function ProductDetailPage() {
                       <button
                         key={opt}
                         onClick={() => setSelectedVariants(prev => ({ ...prev, [variantGroup.type]: opt }))}
-                        className={`text-xs font-bold px-4 py-2 border rounded-full transition-all cursor-pointer ${
-                          selectedVariants[variantGroup.type] === opt
+                        className={`text-xs font-bold px-4 py-2 border rounded-full transition-all cursor-pointer ${selectedVariants[variantGroup.type] === opt
                             ? "bg-charcoal text-white border-charcoal shadow-sm scale-105"
                             : "bg-white text-charcoal/70 border-gray-200 hover:border-primary/40"
-                        }`}
+                          }`}
                       >
                         {opt}
                       </button>
@@ -303,29 +265,29 @@ export default function ProductDetailPage() {
               <div className="flex flex-col gap-4 mt-2 w-full" ref={observerRef}>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center border border-gray-200 rounded-xl bg-white shadow-sm">
-                    <button 
+                    <button
                       onClick={() => setQty(Math.max(1, qty - 1))}
                       className="p-3 text-charcoal/70 hover:text-primary transition-colors"
                     >
                       <Minus size={16} />
                     </button>
                     <span className="w-10 text-center font-bold text-sm text-charcoal">{qty}</span>
-                    <button 
+                    <button
                       onClick={() => setQty(qty + 1)}
                       className="p-3 text-charcoal/70 hover:text-primary transition-colors"
                     >
                       <Plus size={16} />
                     </button>
                   </div>
-                  <button 
+                  <button
                     onClick={handleAddToCart}
                     className="flex-grow bg-white hover:bg-cream/50 border border-gray-200 text-charcoal font-bold py-3.5 rounded-xl transition-all hover:border-primary/40 shadow-sm"
                   >
                     Add to Cart
                   </button>
                 </div>
-                
-                <button 
+
+                <button
                   onClick={handleAddToCart}
                   className="w-full bg-primary hover:bg-primary/95 text-white font-black uppercase tracking-widest py-4 rounded-xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
                 >
@@ -339,7 +301,7 @@ export default function ProductDetailPage() {
                   <Truck size={18} className="text-primary" />
                   <span>Delivery within 2 business days · <span className="font-bold text-primary">Free across India</span></span>
                 </div>
-                
+
                 <div className="flex items-center justify-between bg-green-50/50 border border-green-200 p-3 rounded-xl text-xs shadow-sm">
                   <div className="flex items-center gap-2 text-green-700">
                     <Percent size={16} />
@@ -540,7 +502,7 @@ export default function ProductDetailPage() {
           <div className="flex flex-col gap-4">
             {FAQ_ITEMS.map((faq, idx) => (
               <div key={idx} className="border border-primary/10 rounded-xl bg-white shadow-sm overflow-hidden">
-                <button 
+                <button
                   onClick={() => setFaqOpen(faqOpen === idx ? null : idx)}
                   className="w-full flex items-center justify-between p-5 text-left hover:bg-cream/20 transition-colors cursor-pointer"
                 >
@@ -591,7 +553,7 @@ export default function ProductDetailPage() {
           <span className="text-[10px] text-primary/70 uppercase tracking-widest font-extrabold">Limited Deal</span>
           <span className="text-lg font-black text-charcoal">₹{PRODUCT.price.toLocaleString()}</span>
         </div>
-        <button 
+        <button
           onClick={handleAddToCart}
           className="bg-primary text-white font-black uppercase text-xs px-6 py-3 rounded-xl shadow-md"
         >

@@ -54,7 +54,7 @@ export default function Hero() {
       {/* Primary Hero Banner Image */}
       <img
         src={`${BASE_PATH}/moonstruck-banner.jpg`}
-        alt="Elevate Your Home with Celestial Craftsmanship"
+        alt="Elevate Your Home with Curated Essentials"
         className="w-full aspect-[1600/750] object-cover"
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = 'none';

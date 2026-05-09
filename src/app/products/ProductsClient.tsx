@@ -2,18 +2,18 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { 
-  Heart, 
-  ShoppingCart, 
-  Star, 
-  SlidersHorizontal, 
-  X, 
-  ChevronDown, 
-  ChevronUp, 
-  ArrowUpDown, 
-  Check, 
-  Info, 
-  RefreshCw 
+import {
+  Heart,
+  ShoppingCart,
+  Star,
+  SlidersHorizontal,
+  X,
+  ChevronDown,
+  ChevronUp,
+  ArrowUpDown,
+  Check,
+  Info,
+  RefreshCw
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { PRODUCTS_CATALOG, Product } from "@/data/products";
@@ -22,29 +22,21 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import { api } from "@/lib/api";
 
 const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 // Available categories for filtering
-const CATEGORY_OPTIONS = [
-  "Kitchen",
-  "Home Appliances",
-  "Mixer Grinder",
-  "Juicer Mixer Grinder",
-  "Electric Kettle",
-  "Toaster",
-  "Steam Iron",
-  "Winter Appliances",
-  "Summer Appliances",
-  "Air Cooler",
-  "Juicer"
-];
-
-export default function ProductsClient() {
+export default function ProductsClient({ initialProducts = [] }: { initialProducts?: Product[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { addToCart } = useCart();
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    api.getCategories().then(setCategories).catch(console.error);
+  }, []);
 
   // --- State Driven Filters from URL ---
   const currentSort = searchParams.get("sort") || "featured";
@@ -160,7 +152,7 @@ export default function ProductsClient() {
 
   // --- Filter and Sort logic ---
   const filteredProducts = useMemo(() => {
-    return (PRODUCTS_CATALOG || []).filter((product) => {
+    return (initialProducts || []).filter((product) => {
       if (!product) return false;
 
       // 1. Availability Filter
@@ -206,7 +198,7 @@ export default function ProductsClient() {
           return bFeatured - aFeatured || (a.id || "").localeCompare(b.id || "");
       }
     });
-  }, [currentSort, currentInStockOnly, currentSelectedCategories, currentMinPrice, currentMaxPrice]);
+  }, [initialProducts, currentSort, currentInStockOnly, currentSelectedCategories, currentMinPrice, currentMaxPrice]);
 
   // Format currency in Indian standard ₹1,399 format
   const formatCurrency = (val: number) => {
@@ -238,7 +230,7 @@ export default function ProductsClient() {
         {/* Dynamic Title / Intro */}
         <div className="mb-10 text-left animate-fade-in">
           <span className="text-primary text-[10px] md:text-xs font-black tracking-widest uppercase flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" /> Celestial Craftsmanship
+            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" /> Curated Essentials
           </span>
           <h1 className="text-3xl md:text-5xl font-serif font-black text-charcoal tracking-tight mt-1.5">
             Discover Moonstruck Collection
@@ -293,7 +285,7 @@ export default function ProductsClient() {
         {(currentSelectedCategories.length > 0 || currentInStockOnly || currentMinPrice > 0 || currentMaxPrice < 20000) && (
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <span className="text-[10px] text-charcoal/40 font-black uppercase tracking-widest">Active Filters:</span>
-            
+
             {currentSelectedCategories.map((cat) => (
               <button
                 key={cat}
@@ -362,18 +354,18 @@ export default function ProductsClient() {
                   {isCategoryOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                 </button>
                 {isCategoryOpen && (
-                  <div className="mt-3 space-y-2 max-h-48 overflow-y-auto pr-1 scrollbar-thin">
-                    {CATEGORY_OPTIONS.map((cat) => {
-                      const isChecked = currentSelectedCategories.includes(cat);
+                  <div className="space-y-2 mt-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                    {categories.map((category) => {
+                      const isChecked = currentSelectedCategories.includes(category);
                       return (
-                        <label key={cat} className="flex items-center gap-2.5 text-xs text-charcoal/80 cursor-pointer hover:text-primary transition-colors py-0.5">
+                        <label key={category} className="flex items-center gap-2.5 text-xs text-charcoal/80 cursor-pointer hover:text-primary transition-colors py-0.5">
                           <input
                             type="checkbox"
                             checked={isChecked}
-                            onChange={() => handleCategoryToggle(cat)}
+                            onChange={() => handleCategoryToggle(category)}
                             className="rounded border-gray-300 text-primary focus:ring-primary/40 h-3.5 w-3.5"
                           />
-                          <span className={isChecked ? "font-bold text-charcoal" : "font-medium"}>{cat}</span>
+                          <span className={`${isChecked ? "font-bold text-charcoal" : "font-medium"} capitalize`}>{category}</span>
                         </label>
                       );
                     })}
@@ -610,9 +602,8 @@ export default function ProductsClient() {
                                 variant: "Standard Edition",
                               });
                             }}
-                            className={`p-2.5 rounded-xl border border-primary/10 shadow-xs hover:border-primary transition-all text-charcoal hover:bg-primary hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:border-transparent ${
-                              isOutOfStock ? "cursor-not-allowed" : "cursor-pointer"
-                            }`}
+                            className={`p-2.5 rounded-xl border border-primary/10 shadow-xs hover:border-primary transition-all text-charcoal hover:bg-primary hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:border-transparent ${isOutOfStock ? "cursor-not-allowed" : "cursor-pointer"
+                              }`}
                             aria-label={`Quick add ${product?.title || ""} to cart`}
                           >
                             <ShoppingCart size={15} />
@@ -672,11 +663,10 @@ export default function ProductsClient() {
                     <button
                       key={option.value}
                       onClick={() => handleSortChange(option.value)}
-                      className={`text-left text-xs font-bold py-2.5 px-4 rounded-xl border transition-all ${
-                        isSelected 
-                          ? "bg-primary text-white border-primary shadow-xs" 
+                      className={`text-left text-xs font-bold py-2.5 px-4 rounded-xl border transition-all ${isSelected
+                          ? "bg-primary text-white border-primary shadow-xs"
                           : "bg-white text-charcoal/70 border-primary/10 hover:border-primary/30"
-                      }`}
+                        }`}
                     >
                       {option.label}
                     </button>
@@ -697,11 +687,10 @@ export default function ProductsClient() {
                       <button
                         key={cat}
                         onClick={() => handleCategoryToggle(cat)}
-                        className={`text-xs font-bold py-2 px-3.5 rounded-full border transition-all ${
-                          isChecked 
-                            ? "bg-primary text-white border-primary shadow-xs" 
+                        className={`text-xs font-bold py-2 px-3.5 rounded-full border transition-all ${isChecked
+                            ? "bg-primary text-white border-primary shadow-xs"
                             : "bg-white text-charcoal/70 border-primary/10"
-                        }`}
+                          }`}
                       >
                         {cat}
                       </button>

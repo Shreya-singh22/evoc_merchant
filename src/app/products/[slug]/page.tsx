@@ -1,14 +1,22 @@
 import ProductDetailClient from "./ProductDetailClient";
+import { api } from "@/lib/api";
+import { notFound } from "next/navigation";
 
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const { slug } = await params;
+  
+  try {
+    const product = await api.getProduct(slug);
+    
+    if (!product) {
+      return notFound();
+    }
 
-export function generateStaticParams() {
-  return [
-    { slug: "ultra-grind-750w" },
-  ];
-}
-
-export default function ProductPage() {
-  return (
-    <ProductDetailClient />
-  );
+    return (
+      <ProductDetailClient product={product} />
+    );
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return notFound();
+  }
 }
