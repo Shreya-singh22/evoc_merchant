@@ -127,7 +127,7 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
                 {/* Sale Badge */}
                 <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
                   <span className="bg-primary text-white text-[10px] font-black px-2.5 py-1 uppercase rounded-full tracking-wider shadow-sm">
-                    Save -{PRODUCT.discountPercent}%
+                    Save -{PRODUCT.discountPct}%
                   </span>
                 </div>
 
@@ -182,7 +182,7 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
                       </div>
                     </div>
                     <span className="text-[10px] text-charcoal/50 font-bold uppercase tracking-wider mt-1">
-                      ({PRODUCT.reviews} Reviews)
+                      ({PRODUCT.reviewsCount} Reviews)
                     </span>
                   </div>
                   <div className="h-8 w-px bg-primary/10" />
@@ -239,13 +239,13 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
               </div>
 
               {/* Variant Selectors */}
-              {PRODUCT.variants.map((variantGroup) => (
+              {PRODUCT.variants.map((variantGroup: any) => (
                 <div key={variantGroup.type} className="flex flex-col gap-2 mt-2 w-full">
                   <span className="text-[10px] font-bold text-charcoal/40 uppercase tracking-widest">
                     Select {variantGroup.type}
                   </span>
                   <div className="flex flex-wrap gap-2">
-                    {variantGroup.options.map((opt) => (
+                    {variantGroup.options.map((opt: any) => (
                       <button
                         key={opt}
                         onClick={() => setSelectedVariants(prev => ({ ...prev, [variantGroup.type]: opt }))}

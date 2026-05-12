@@ -681,7 +681,7 @@ export default function ProductsClient({ initialProducts = [] }: { initialProduc
               <div>
                 <span className="font-serif font-bold text-sm text-charcoal block mb-3">Category</span>
                 <div className="flex flex-wrap gap-2">
-                  {CATEGORY_OPTIONS.map((cat) => {
+                  {categories.map((cat) => {
                     const isChecked = currentSelectedCategories.includes(cat);
                     return (
                       <button
