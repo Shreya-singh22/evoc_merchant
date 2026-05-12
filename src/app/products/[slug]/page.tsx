@@ -20,3 +20,15 @@ export default async function ProductPage({ params }: { params: { slug: string }
     return notFound();
   }
 }
+
+export async function generateStaticParams() {
+  try {
+    const products = await api.getProducts();
+    return products.map((product) => ({
+      slug: product.slug,
+    }));
+  } catch (error) {
+    console.error("Failed to generate static params for products:", error);
+    return [];
+  }
+}
