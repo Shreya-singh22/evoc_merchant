@@ -53,7 +53,7 @@ function mapStorefrontProduct(p: StorefrontProduct): Product {
 export const api = {
   async getProducts(subdomain: string = DEFAULT_SUBDOMAIN): Promise<Product[]> {
     const res = await fetch(`${API_BASE_URL}/storefront/public/${subdomain}/products`, {
-      cache: 'no-store',
+      cache: 'force-cache',
     });
     if (!res.ok) throw new Error(`Failed to fetch products`);
     const json: APIResponse<PaginatedProducts> = await res.json();
@@ -64,7 +64,7 @@ export const api = {
     try {
       // 1. Try the specific detail API first
       const res = await fetch(`${API_BASE_URL}/storefront/public/${subdomain}/products/${id}`, {
-        cache: 'no-store',
+        cache: 'force-cache',
       });
       
       if (res.ok) {
