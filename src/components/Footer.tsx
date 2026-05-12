@@ -100,8 +100,14 @@ export default function Footer() {
         <div className="flex items-center gap-2 text-xs md:text-sm text-white/40 font-semibold tracking-wide">
           <span>&copy; {new Date().getFullYear()} Moonstruck Appliances. All Rights Reserved.</span>
           <span>•</span>
-          <span className="text-green-500 flex items-center gap-1 font-black">
-            <ShieldCheck size={14} /> Built for Maximum Safety & Security
+          <span className="flex items-center gap-1.5 font-bold text-[#29ace4] group transition-all hover:brightness-110 cursor-pointer">
+            Powered by 
+            <img 
+              src={`${BASE_PATH}/evoclabs-logo.png`} 
+              alt="EvocLabs Logo" 
+              className="h-7 w-auto object-contain" 
+            /> 
+            EvocLabs
           </span>
         </div>
 
