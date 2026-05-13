@@ -11,7 +11,7 @@ const REVIEWS_DATA = [
     rating: 5,
     date: "May 1, 2026",
     text: "Absolutely wowed by the motor power of the mixer grinder! Grinding heavy idli batter is a smooth breeze now.",
-    product: "Ultra-Grind 750W Mixer",
+    product: "Mixer Grinder",
     image: ASSETS.reviews[0],
   },
   {
@@ -20,7 +20,7 @@ const REVIEWS_DATA = [
     rating: 5,
     date: "April 29, 2026",
     text: "The air cooler cools our whole living room in less than 15 minutes. Very quiet and aesthetically pleasing.",
-    product: "AeroCool Pro Elite",
+    product: "Air Cooler",
     image: ASSETS.reviews[1],
   },
   {
@@ -29,7 +29,7 @@ const REVIEWS_DATA = [
     rating: 5,
     date: "April 22, 2026",
     text: "The premium cream texture blends with our modern kitchen flawlessly. Highly recommend the starter combo.",
-    product: "Morning Starter Combo",
+    product: "Kitchen Appliance",
     image: ASSETS.reviews[2],
   },
 ];

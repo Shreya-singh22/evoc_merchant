@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Globe, MessageCircle, Share2, ShieldCheck, Heart } from "lucide-react";
 
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-charcoal text-white pt-20 pb-8 select-none border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-14 mb-16 select-none animate-fade-in">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14 mb-16 select-none animate-fade-in">
         {/* Column 1 - Brand & Contact */}
         <div className="flex flex-col items-start gap-4 lg:col-span-2">
           <a href={`${BASE_PATH}/`} className="flex items-center group select-none mb-2">
@@ -57,11 +58,11 @@ export default function Footer() {
             Information
           </h3>
           <nav className="flex flex-col gap-3">
-            <a href="#brand-story" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</a>
-            <a href="#articles" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Expert Blog</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Track Your Order</a>
-            <a href="#stats" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Warranty Registration</a>
+            <Link href="/about" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</Link>
+            <Link href="/contact" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</Link>
+            <Link href="/blog" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Expert Blog</Link>
+            <Link href="/track-order" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Track Your Order</Link>
+            <Link href="/warranty" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Warranty Registration</Link>
           </nav>
         </div>
 
@@ -71,26 +72,10 @@ export default function Footer() {
             Quick Links
           </h3>
           <nav className="flex flex-col gap-3">
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Privacy Policy</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Terms of Service</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Shipping Policy</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Refund Policy</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Locate Service Center</a>
-          </nav>
-        </div>
-
-        {/* Column 4 - Catalog Links */}
-        <div className="flex flex-col gap-4">
-          <h3 className="text-xs font-black uppercase tracking-wider text-white/50 border-b border-white/10 pb-2 mb-1">
-            Browse Categories
-          </h3>
-          <nav className="flex flex-col gap-3">
-            <a href="#kitchen-appliances" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Kitchen Appliances</a>
-            <a href="#mixer-grinders" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Mixer Grinders</a>
-            <a href="#coolers" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Air Coolers</a>
-            <a href="#fans" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Ceiling Fans</a>
-            <a href="#irons" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Steam Irons</a>
-            <a href="#winter-appliances" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Winter Heaters</a>
+            <Link href="/#privacy" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Privacy Policy</Link>
+            <Link href="/#terms" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Terms of Service</Link>
+            <Link href="/#shipping" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Shipping Policy</Link>
+            <Link href="/#refunds" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Refund Policy</Link>
           </nav>
         </div>
       </div>
@@ -100,15 +85,20 @@ export default function Footer() {
         <div className="flex items-center gap-2 text-xs md:text-sm text-white/40 font-semibold tracking-wide">
           <span>&copy; {new Date().getFullYear()} Moonstruck Appliances. All Rights Reserved.</span>
           <span>•</span>
-          <span className="flex items-center gap-1.5 font-bold text-[#29ace4] group transition-all hover:brightness-110 cursor-pointer">
-            Powered by 
-            <img 
-              src={`${BASE_PATH}/evoclabs-logo.png`} 
-              alt="EvocLabs Logo" 
-              className="h-7 w-auto object-contain" 
-            /> 
+          <a
+            href="https://evoclabs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 font-bold text-[#29ace4] group transition-all hover:brightness-110 cursor-pointer"
+          >
+            Powered by
+            <img
+              src={`${BASE_PATH}/evoclabs-logo.png`}
+              alt="EvocLabs Logo"
+              className="h-7 w-auto object-contain"
+            />
             EvocLabs
-          </span>
+          </a>
         </div>
 
         <div className="flex items-center gap-3.5 opacity-60">

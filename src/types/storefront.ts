@@ -6,6 +6,7 @@ export interface APIResponse<T> {
 
 export interface StorefrontProduct {
   id: string;
+  slug: string | null;
   name: string;
   description: string;
   price: string;
@@ -17,6 +18,9 @@ export interface StorefrontProduct {
   tags: string[];
   customFields: any;
   isFeatured: boolean;
+  isBestSeller: boolean;
+  isValueCombo: boolean;
+  isNewArrival: boolean;
   isActive: boolean;
   createdAt: string;
   variants: any[];

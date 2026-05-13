@@ -1,35 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Plus, Minus } from "lucide-react";
 
 const FAQS = [
   {
-    id: 1,
-    question: "How long is the appliance warranty?",
-    answer: "Every single Moonstruck home appliance comes with a complimentary 2-Year Comprehensive warranty. This includes coverage for any structural or internal component failures, motor replacements, and in-house servicing.",
-  },
-  {
-    id: 2,
-    question: "Do you provide free installation?",
-    answer: "Yes, we provide completely free pan-India installation on all home appliances above orders of ₹2,999. Our authorized technicians will arrive within 24–48 hours of product delivery to complete setup.",
-  },
-  {
-    id: 3,
-    question: "What makes your mixer grinder motor heavy duty?",
-    answer: "Our heavy duty mixer grinders are equipped with 100% pure copper-wound motors with intelligent overload protection. This delivers much higher torque, less noise, and enhanced efficiency compared to typical aluminum motors.",
-  },
-  {
-    id: 4,
+    id: "returns",
     question: "What is your replacement or return policy?",
-    answer: "We offer a 10-day Hassle-Free Replacement Policy. If your appliance arrives damaged, defective, or with any issues, we will replace the unit or specific part immediately at no additional cost.",
+    answer:
+      "We offer a 10-day Hassle-Free Replacement Policy from the date of delivery. If your appliance arrives damaged, defective, or with any issue, we will replace the unit or the specific part immediately at no additional cost. Items must be returned in original packaging with the invoice and all accessories.",
+  },
+  {
+    id: "privacy",
+    question: "What is your privacy policy?",
+    answer:
+      "We only collect the information necessary to deliver your order, register your warranty, and improve our products — contact details, addresses, and purchase history. We never sell or rent your personal data to third parties. Payment information is processed via PCI-DSS compliant gateways and is never stored on our servers. You can request a copy or deletion of your data anytime by writing to care@moonstruck.co.in.",
+  },
+  {
+    id: "terms",
+    question: "What are your terms of service?",
+    answer:
+      "By placing an order on Moonstruck, you agree that the product details, pricing, and stock shown on our site are accurate to the best of our knowledge but may be updated at any time. Orders are accepted only after payment confirmation and stock verification. Warranty terms apply only to products purchased from Moonstruck.co.in or our authorized retailers — please retain your invoice. All disputes are subject to the jurisdiction of courts in Mumbai, MH.",
+  },
+  {
+    id: "shipping",
+    question: "What is your shipping policy?",
+    answer:
+      "We ship pan-India with our trusted logistics partners. Metro orders are typically delivered within 2–4 working days, and the rest of India within 5–8 working days. Shipping is free on all orders above ₹999. You can track your package live from the Track Your Order page, and our team will share an SMS/WhatsApp update at every stage.",
+  },
+  {
+    id: "refunds",
+    question: "What is your refund policy?",
+    answer:
+      "Approved refunds are processed within 5–7 working days of us receiving the returned product. Refunds are credited back to the original payment method — UPI, card, or net banking — and you'll get a confirmation by email and SMS. For Cash on Delivery orders, refunds are processed via bank transfer once your bank account details are shared with our support team.",
   },
 ];
 
 export default function FAQ() {
-  const [openId, setOpenId] = useState<number | null>(1);
+  const [openId, setOpenId] = useState<string | null>("returns");
 
-  const toggle = (id: number) => {
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.replace(/^#/, "");
+      if (!hash) return;
+      const match = FAQS.find((f) => f.id === hash);
+      if (!match) return;
+      setOpenId(match.id);
+      const el = document.getElementById(match.id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
+
+  const toggle = (id: string) => {
     setOpenId(openId === id ? null : id);
   };
 
@@ -53,7 +79,8 @@ export default function FAQ() {
           return (
             <div
               key={faq.id}
-              className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
+              id={faq.id}
+              className={`border rounded-2xl overflow-hidden transition-all duration-300 scroll-mt-32 ${
                 isOpen ? "bg-cream/40 border-primary/25 shadow-md" : "bg-white border-primary/10 hover:border-primary/20"
               }`}
             >

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PromoBar from "@/components/PromoBar";
@@ -8,7 +9,8 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import CartDrawer from "@/components/CartDrawer";
 import { Star, ShieldCheck, ShoppingCart, Plus, Minus, Share2, Mail, Truck, Zap, Percent, Play, ChevronDown, ChevronUp, CheckCircle2, Award } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { Product } from "@/data/products";
+import { Product } from "@/types/product";
+import { api } from "@/lib/api";
 
 const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
@@ -41,7 +43,12 @@ const ImageWithFallback = ({ src, alt, className }: any) => {
   return <img src={getMediaUrl(src)} alt={alt} className={className} onError={() => setError(true)} />;
 };
 
-export default function ProductDetailPage({ product: PRODUCT }: { product: Product }) {
+export default function ProductDetailPage({ slug }: { slug: string }) {
+  const [PRODUCT, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorNotFound, setErrorNotFound] = useState(false);
+
   const [activeImage, setActiveImage] = useState(0);
   const [zoomStyle, setZoomStyle] = useState({ display: 'none', backgroundPosition: '0% 0%' });
   const [qty, setQty] = useState(1);
@@ -55,7 +62,55 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
   const { addToCart } = useCart();
   const observerRef = useRef<HTMLDivElement>(null);
 
+  // Fetch product from API by slug
   useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setErrorNotFound(false);
+    setProduct(null);
+    setActiveImage(0);
+    api.getProduct(slug)
+      .then((p) => {
+        if (cancelled) return;
+        if (p) {
+          setProduct(p);
+        } else {
+          setErrorNotFound(true);
+        }
+      })
+      .catch((err) => {
+        console.error(`Failed to load product ${slug}:`, err);
+        if (!cancelled) setErrorNotFound(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  // Fetch other products for the "You May Also Like" rail
+  useEffect(() => {
+    if (!PRODUCT) return;
+    let cancelled = false;
+    api
+      .getProducts()
+      .then((all) => {
+        if (cancelled) return;
+        const others = all.filter((p) => p.id !== PRODUCT.id).slice(0, 4);
+        setRelatedProducts(others);
+      })
+      .catch(() => {
+        if (!cancelled) setRelatedProducts([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [PRODUCT]);
+
+  useEffect(() => {
+    if (!PRODUCT) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         // Show sticky bar when the main add to cart button is out of view
@@ -67,7 +122,7 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
       observer.observe(observerRef.current);
     }
     return () => observer.disconnect();
-  }, []);
+  }, [PRODUCT]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -81,6 +136,7 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
   };
 
   const handleAddToCart = () => {
+    if (!PRODUCT) return;
     addToCart({
       id: `${PRODUCT.id}_${selectedVariants.Wattage}_${selectedVariants.Color}`,
       name: PRODUCT.name,
@@ -92,11 +148,58 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
     });
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen select-none bg-cream/30 text-charcoal font-sans">
+        <div className="sticky top-0 z-50 w-full">
+          <PromoBar />
+          <Header />
+        </div>
+        <main className="flex-grow flex flex-col items-center justify-center py-24">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+          <span className="text-xs font-bold uppercase tracking-wider text-charcoal/60">Loading product...</span>
+        </main>
+        <Footer />
+        <CartDrawer />
+        <MobileBottomNav />
+      </div>
+    );
+  }
+
+  if (errorNotFound || !PRODUCT) {
+    return (
+      <div className="flex flex-col min-h-screen select-none bg-cream/30 text-charcoal font-sans">
+        <div className="sticky top-0 z-50 w-full">
+          <PromoBar />
+          <Header />
+        </div>
+        <main className="flex-grow flex items-center justify-center px-4 py-24">
+          <div className="flex flex-col items-center justify-center text-center py-16 md:py-24 bg-white border border-primary/10 rounded-2xl p-6 shadow-xs max-w-xl mx-auto w-full">
+            <span className="text-4xl md:text-5xl mb-4 text-gold animate-bounce">✦</span>
+            <h3 className="text-2xl font-serif font-black text-charcoal mb-2">Product Not Found</h3>
+            <p className="text-charcoal/60 text-sm md:text-base max-w-sm mb-6 leading-relaxed">
+              The product you're looking for is no longer available or the link may be incorrect.
+            </p>
+            <a
+              href={`${BASE_PATH}/products`}
+              className="bg-primary hover:bg-primary/95 text-white font-black uppercase text-xs tracking-widest py-3.5 px-8 rounded-full shadow-lg transition-all"
+            >
+              Browse All Products
+            </a>
+          </div>
+        </main>
+        <Footer />
+        <CartDrawer />
+        <MobileBottomNav />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-screen select-none bg-cream/30 text-charcoal font-sans">
       <div className="sticky top-0 z-50 w-full">
         <PromoBar />
-        {/* We use existing header, but we might want to force it dark if it isn't, but the prompt says 'Reuse my existing Header'. 
+        {/* We use existing header, but we might want to force it dark if it isn't, but the prompt says 'Reuse my existing Header'.
             It has its own background color in the component. That's perfectly fine. */}
         <Header />
       </div>
@@ -148,18 +251,20 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
                 />
               </div>
 
-              {/* Thumbnails */}
-              <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                {PRODUCT.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImage(idx)}
-                    className={`w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all bg-white p-1 ${activeImage === idx ? 'border-gold shadow-[0_0_10px_rgba(201,168,106,0.3)] scale-105' : 'border-primary/10 hover:border-gold/50'}`}
-                  >
-                    <ImageWithFallback src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover rounded-lg" />
-                  </button>
-                ))}
-              </div>
+              {/* Thumbnails (only render strip when ≥2 images) */}
+              {PRODUCT.images.length >= 2 && (
+                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                  {PRODUCT.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImage(idx)}
+                      className={`w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all bg-white p-1 ${activeImage === idx ? 'border-gold shadow-[0_0_10px_rgba(201,168,106,0.3)] scale-105' : 'border-primary/10 hover:border-gold/50'}`}
+                    >
+                      <ImageWithFallback src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover rounded-lg" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* RIGHT: Product Info */}
@@ -520,30 +625,52 @@ export default function ProductDetailPage({ product: PRODUCT }: { product: Produ
         </section>
 
         {/* You May Also Like */}
-        <section className="py-20 max-w-7xl mx-auto px-4 md:px-6 border-t border-primary/10">
-          <h2 className="text-2xl font-serif font-bold mb-8 text-charcoal">You May Also Like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="bg-white border border-primary/10 rounded-2xl p-4 flex flex-col gap-3 group hover:border-primary/40 transition-colors shadow-sm">
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-cream/10">
-                  <span className="absolute top-2 left-2 z-10 bg-primary text-white text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider shadow-sm uppercase">Save ₹500</span>
-                  <ImageWithFallback src={PRODUCT.images[item]} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" alt="Related" />
-                </div>
-                <div className="flex flex-col gap-1 mt-2">
-                  <div className="flex items-center text-gold mb-1">
-                    <Star size={12} className="fill-gold" /><Star size={12} className="fill-gold" /><Star size={12} className="fill-gold" /><Star size={12} className="fill-gold" /><Star size={12} className="fill-gold" />
+        {relatedProducts.length > 0 && (
+          <section className="py-20 max-w-7xl mx-auto px-4 md:px-6 border-t border-primary/10">
+            <h2 className="text-2xl font-serif font-bold mb-8 text-charcoal">You May Also Like</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {relatedProducts.map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/products/${p.slug || p.id}`}
+                  className="bg-white border border-primary/10 rounded-2xl p-4 flex flex-col gap-3 group hover:border-primary/40 transition-colors shadow-sm"
+                >
+                  <div className="relative aspect-square rounded-xl overflow-hidden bg-cream/10">
+                    {p.savings > 0 && (
+                      <span className="absolute top-2 left-2 z-10 bg-primary text-white text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider shadow-sm uppercase">
+                        Save ₹{p.savings.toLocaleString("en-IN")}
+                      </span>
+                    )}
+                    <ImageWithFallback
+                      src={p.images?.[0]}
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                      alt={p.name}
+                    />
                   </div>
-                  <h4 className="text-sm font-bold text-charcoal group-hover:text-primary transition-colors">AeroCool Extra {item}</h4>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-base font-black text-charcoal">₹2,499</span>
-                    <span className="text-xs text-charcoal/40 line-through">₹2,999</span>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <div className="flex items-center text-gold mb-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={12} className={i < Math.floor(p.rating || 4.5) ? "fill-gold text-gold" : "text-gray-300"} />
+                      ))}
+                    </div>
+                    <h4 className="text-sm font-bold text-charcoal group-hover:text-primary transition-colors line-clamp-1">
+                      {p.name}
+                    </h4>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-base font-black text-charcoal">₹{p.price.toLocaleString("en-IN")}</span>
+                      {p.mrp > p.price && (
+                        <span className="text-xs text-charcoal/40 line-through">₹{p.mrp.toLocaleString("en-IN")}</span>
+                      )}
+                    </div>
+                    {p.coins > 0 && (
+                      <span className="text-[9px] text-primary/70 font-bold uppercase tracking-wider mt-1">Earn +{p.coins} Coins</span>
+                    )}
                   </div>
-                  <span className="text-[9px] text-primary/70 font-bold uppercase tracking-wider mt-1">Earn +50 Coins</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
       </main>
 

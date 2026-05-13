@@ -1,34 +1,17 @@
-import ProductDetailClient from "./ProductDetailClient";
 import { api } from "@/lib/api";
-import { notFound } from "next/navigation";
-
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
-  
-  try {
-    const product = await api.getProduct(slug);
-    
-    if (!product) {
-      return notFound();
-    }
-
-    return (
-      <ProductDetailClient product={product} />
-    );
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    return notFound();
-  }
-}
+import ProductDetailClient from "./ProductDetailClient";
 
 export async function generateStaticParams() {
   try {
     const products = await api.getProducts();
-    return products.map((product) => ({
-      slug: product.slug,
-    }));
-  } catch (error) {
-    console.error("Failed to generate static params for products:", error);
+    return products.map((p) => ({ slug: p.slug || p.id }));
+  } catch (err) {
+    console.warn("generateStaticParams: backend unreachable, returning empty slug list", err);
     return [];
   }
+}
+
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  return <ProductDetailClient slug={slug} />;
 }
