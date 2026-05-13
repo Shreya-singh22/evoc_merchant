@@ -159,7 +159,7 @@ export default function RefundPolicy() {
             {/* Void Conditions */}
             <div className="bg-red-50/50 border border-red-100 rounded-2xl p-6 md:p-8 mt-6">
               <h4 className="font-serif font-black text-red-800 text-base md:text-lg mb-2 flex items-center gap-2">
-                🛡️ Warranty Null & Void Cases
+                Warranty Null & Void Cases
               </h4>
               <p className="text-sm text-red-900/75 font-medium mb-3">
                 The standard manufacturer warranty shall stand void in the following scenarios:

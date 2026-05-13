@@ -128,10 +128,10 @@ export default function ShippingPolicy() {
             </h2>
             <div className="space-y-4 text-charcoal/90 text-sm font-medium leading-relaxed">
               <p>
-                <strong>📦 Visibly Damaged Products:</strong> If your order arrives visibly damaged, please contact customer service immediately. Reach out to us at <a href="https://www.moonstruck.co.in/pages/raise-complaint" className="text-primary underline font-bold">raise-complaint</a> with your Order ID and unboxing images. We will dispatch a replacement or initiate a refund immediately.
+                <strong>Visibly Damaged Products:</strong> If your order arrives visibly damaged, please contact customer service immediately. Reach out to us at <a href="https://www.moonstruck.co.in/pages/raise-complaint" className="text-primary underline font-bold">raise-complaint</a> with your Order ID and unboxing images. We will dispatch a replacement or initiate a refund immediately.
               </p>
               <p>
-                <strong>🛑 Tampered Packaging:</strong> If you believe the outer packaging has been tampered with or damaged before delivery, **please refuse to take delivery of the package** and submit a support ticket immediately mentioning your Order ID. We will process an immediate replacement or refund.
+                <strong>Tampered Packaging:</strong> If you believe the outer packaging has been tampered with or damaged before delivery, **please refuse to take delivery of the package** and submit a support ticket immediately mentioning your Order ID. We will process an immediate replacement or refund.
               </p>
             </div>
           </section>
