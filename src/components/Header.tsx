@@ -141,7 +141,7 @@ export default function Header() {
             Expert Guides
           </a>
           <a
-            href="#faq"
+            href={`${BASE_PATH}/contact-us`}
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             Contact
@@ -185,11 +185,11 @@ export default function Header() {
               Warranty Details
             </a>
             <a
-              href="#faq"
+              href={`${BASE_PATH}/contact-us`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide"
             >
-              FAQs & Help
+              Contact Us
             </a>
           </div>
         </div>

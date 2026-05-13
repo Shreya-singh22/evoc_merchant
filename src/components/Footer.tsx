@@ -30,9 +30,9 @@ export default function Footer() {
             Premium home appliance engineering designed explicitly for Indian homes. Built for durability, safety, and modern performance.
           </p>
           <div className="text-xs md:text-sm text-white/80 flex flex-col gap-1 mt-2">
-            <p><strong>Address:</strong> 104, Industrial Area Phase II, Mumbai, MH</p>
-            <p><strong>Support:</strong> care@moonstruck.co.in</p>
-            <p><strong>Contact:</strong> +91 1800-200-1122 (Toll Free)</p>
+            <p><strong>Address:</strong> Plot No. 259, Block F, DSIIDC Industrial Area, Sector 3, Delhi 110039</p>
+            <p><strong>Support:</strong> support@moonstruck.co.in</p>
+            <p><strong>Contact:</strong> +91 97735 50700</p>
           </div>
           <div className="flex items-center gap-3.5 mt-3">
             <a href="#" className="p-2 bg-white/5 hover:bg-primary rounded-xl transition-all hover:-translate-y-1 text-white border border-white/10 hover:border-primary">
@@ -58,7 +58,7 @@ export default function Footer() {
           </h3>
           <nav className="flex flex-col gap-3">
             <a href={`${BASE_PATH}/about-us`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</a>
+            <a href={`${BASE_PATH}/contact-us`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</a>
             <a href="#articles" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Expert Blog</a>
             <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Track Your Order</a>
             <a href="#stats" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Warranty Registration</a>
