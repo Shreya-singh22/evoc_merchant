@@ -75,7 +75,7 @@ export default function Footer() {
             <a href={`${BASE_PATH}/privacy-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Terms of Service</a>
             <a href={`${BASE_PATH}/shipping-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Shipping Policy</a>
             <a href={`${BASE_PATH}/refund-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Refund Policy</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Locate Service Center</a>
+
           </nav>
         </div>
 
