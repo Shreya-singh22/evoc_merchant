@@ -11,7 +11,7 @@ export const ASSETS = {
   },
   blog: [
     "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1585238341267-1cfec2046a55?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1522003885544-77bbfa7be199?auto=format&fit=crop&w=600&q=80",
   ],
   reels: {
@@ -25,9 +25,9 @@ export const ASSETS = {
   },
   categoryShowcase: [
     "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1585238341710-090956461a20?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1585238341267-1cfec2046a55?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1522003885544-77bbfa7be199?auto=format&fit=crop&w=600&q=80",
   ],

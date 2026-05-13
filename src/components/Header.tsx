@@ -160,11 +160,11 @@ export default function Header() {
           </div>
           <div className="pt-3 border-t border-gray-100 flex flex-col gap-3">
             <a
-              href="#brand-story"
+              href={`${BASE_PATH}/about-us`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide"
             >
-              Our Story
+              About Us
             </a>
             <a
               href="#stats"
@@ -174,11 +174,11 @@ export default function Header() {
               Warranty Details
             </a>
             <a
-              href="#faq"
+              href={`${BASE_PATH}/contact-us`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide"
             >
-              FAQs & Help
+              Contact Us
             </a>
           </div>
         </div>
