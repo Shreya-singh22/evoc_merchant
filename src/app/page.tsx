@@ -16,7 +16,6 @@ import StatsTrust from "@/components/StatsTrust";
 import Certifications from "@/components/Certifications";
 import Reviews from "@/components/Reviews";
 import FAQ from "@/components/FAQ";
-import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -47,7 +46,6 @@ export default function Home() {
           <Certifications />
           <Reviews />
           <FAQ />
-          <Newsletter />
         </main>
 
       <Footer />

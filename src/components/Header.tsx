@@ -123,7 +123,7 @@ export default function Header() {
             All Products
           </a>
           <a
-            href="#brand-story"
+            href={`${BASE_PATH}/about-us`}
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             About Us
@@ -171,11 +171,11 @@ export default function Header() {
           </div>
           <div className="pt-3 border-t border-gray-100 flex flex-col gap-3">
             <a
-              href="#brand-story"
+              href={`${BASE_PATH}/about-us`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide"
             >
-              Our Story
+              About Us
             </a>
             <a
               href="#stats"

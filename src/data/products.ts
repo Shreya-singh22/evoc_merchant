@@ -201,8 +201,8 @@ export const PRODUCTS_CATALOG: any[] = [
     inStock: true,
     tags: ["Kitchen", "Best Seller"],
     images: [
-      "https://images.unsplash.com/photo-1585238341267-1cfec2046a55?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1585238341710-090956461a20?auto=format&fit=crop&w=600&q=80"
+      "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=600&q=80"
     ],
     rating: 4.8,
     reviewsCount: 109,

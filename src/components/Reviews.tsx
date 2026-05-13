@@ -7,31 +7,54 @@ import { ASSETS } from "@/config/assets";
 const REVIEWS_DATA = [
   {
     id: 1,
-    name: "Meera Agarwal",
+    name: "Rakesh Sharma",
+    location: "Delhi",
     rating: 5,
-    date: "May 1, 2026",
-    text: "Absolutely wowed by the motor power of the mixer grinder! Grinding heavy idli batter is a smooth breeze now.",
-    product: "Ultra-Grind 750W Mixer",
-    image: ASSETS.reviews[0],
+    date: "May 10, 2026",
+    text: "I’ve been using the Moonstruck mixer grinder for about 3 months now, and it’s been very reliable. The motor is powerful enough for daily masala grinding and chutneys. Noise level is slightly high, but that’s expected in this range. Overall, a solid product for the price.",
+    product: "Moonstruck Mixer Grinder",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
   },
   {
     id: 2,
-    name: "Vikram Malhotra",
+    name: "Priya Nair",
+    location: "Kochi",
     rating: 5,
-    date: "April 29, 2026",
-    text: "The air cooler cools our whole living room in less than 15 minutes. Very quiet and aesthetically pleasing.",
-    product: "AeroCool Pro Elite",
-    image: ASSETS.reviews[1],
+    date: "May 8, 2026",
+    text: "Absolutely love the sleek design and compact size. It fits perfectly in my kitchen. I mostly use it for coconut grinding and it gives a smooth consistency. Cleaning is also very easy. Definitely worth buying!",
+    product: "Moonstruck Mixer Grinder",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
   },
   {
     id: 3,
-    name: "Anjali Menon",
-    rating: 5,
-    date: "April 22, 2026",
-    text: "The premium cream texture blends with our modern kitchen flawlessly. Highly recommend the starter combo.",
-    product: "Morning Starter Combo",
-    image: ASSETS.reviews[2],
+    name: "Ankit Verma",
+    location: "Lucknow",
+    rating: 4,
+    date: "May 6, 2026",
+    text: "Performance-wise, it’s good, but I feel the jars could be a bit sturdier. The blades are sharp and do the job well. Customer service was responsive when I had a minor issue, so that’s a plus.",
+    product: "Moonstruck Mixer Grinder",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
   },
+  {
+    id: 4,
+    name: "Sneha Kulkarni",
+    location: "Pune",
+    rating: 4,
+    date: "May 3, 2026",
+    text: "I bought this mixer grinder for my new home, and it hasn’t disappointed. The multiple speed settings are useful, and the build quality feels premium. Slight vibration at high speed, but manageable.",
+    product: "Moonstruck Mixer Grinder",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",
+  },
+  {
+    id: 5,
+    name: "Kavita Singh",
+    location: "Jaipur",
+    rating: 4,
+    date: "April 29, 2026",
+    text: "The design is attractive, but the noise is louder than I expected. However, the grinding quality is excellent. Turmeric and dry spices come out very fine. I’m satisfied overall.",
+    product: "Moonstruck Mixer Grinder",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+  }
 ];
 
 export default function Reviews() {
@@ -44,6 +67,12 @@ export default function Reviews() {
   const handleNext = () => {
     setCurrent((prev) => (prev + 1) % REVIEWS_DATA.length);
   };
+
+  const visibleReviews = [
+    REVIEWS_DATA[current],
+    REVIEWS_DATA[(current + 1) % REVIEWS_DATA.length],
+    REVIEWS_DATA[(current + 2) % REVIEWS_DATA.length],
+  ];
 
   return (
     <section id="reviews" className="py-20 md:py-28 max-w-7xl mx-auto px-4 md:px-6 bg-cream/30 border-y border-primary/5 select-none overflow-hidden">
@@ -78,11 +107,11 @@ export default function Reviews() {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-stretch">
-        {REVIEWS_DATA.map((r, idx) => (
+        {visibleReviews.map((r, vIdx) => (
           <div
-            key={r.id}
-            className={`flex flex-col bg-white border border-primary/10 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex-1 relative ${
-              idx === current ? "border-primary/30 scale-[1.02] bg-white z-10" : "opacity-85"
+            key={`${r.id}-${vIdx}`}
+            className={`flex-col bg-white border border-primary/10 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex-1 relative ${
+              vIdx === 1 ? "flex border-primary/30 scale-[1.02] z-10 shadow-md" : "hidden md:flex opacity-85 scale-[0.98]"
             }`}
           >
             <div className="flex items-center justify-between mb-4 select-none">
@@ -92,8 +121,8 @@ export default function Reviews() {
                 </div>
                 <div>
                   <h4 className="text-sm font-black text-charcoal">{r.name}</h4>
-                  <p className="text-[10px] text-primary/70 font-bold uppercase tracking-wider">
-                    Verified Purchase
+                  <p className="text-[9px] md:text-[10px] text-primary/80 font-bold uppercase tracking-wider">
+                    Verified • {r.location}
                   </p>
                 </div>
               </div>

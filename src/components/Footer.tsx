@@ -57,7 +57,7 @@ export default function Footer() {
             Information
           </h3>
           <nav className="flex flex-col gap-3">
-            <a href="#brand-story" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</a>
+            <a href={`${BASE_PATH}/about-us`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</a>
             <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</a>
             <a href="#articles" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Expert Blog</a>
             <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Track Your Order</a>
@@ -71,10 +71,10 @@ export default function Footer() {
             Quick Links
           </h3>
           <nav className="flex flex-col gap-3">
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Privacy Policy</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Terms of Service</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Shipping Policy</a>
-            <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Refund Policy</a>
+            <a href={`${BASE_PATH}/privacy-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Privacy Policy</a>
+            <a href={`${BASE_PATH}/privacy-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Terms of Service</a>
+            <a href={`${BASE_PATH}/shipping-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Shipping Policy</a>
+            <a href={`${BASE_PATH}/refund-policy`} className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Refund Policy</a>
             <a href="#faq" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Locate Service Center</a>
           </nav>
         </div>
