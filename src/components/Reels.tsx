@@ -153,6 +153,7 @@ export default function Reels() {
                 muted={offset !== 0 ? true : isMuted}
                 loop
                 playsInline
+                preload="auto"
                 className="w-full h-full object-cover"
               />
             </div>

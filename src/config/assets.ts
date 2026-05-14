@@ -18,11 +18,11 @@ export const ASSETS = {
   ],
   reels: {
     videos: [
-      "https://assets.mixkit.co/videos/preview/mixkit-pouring-fresh-milk-into-a-glass-in-slow-motion-42610-large.mp4",
-      "https://assets.mixkit.co/videos/preview/mixkit-cold-water-pouring-into-a-glass-42171-large.mp4",
-      "https://assets.mixkit.co/videos/preview/mixkit-man-pouring-hot-water-into-a-teapot-42416-large.mp4",
-      "https://assets.mixkit.co/videos/preview/mixkit-man-hand-adjusting-thermostat-on-air-conditioner-42588-large.mp4",
-      "https://assets.mixkit.co/videos/preview/mixkit-pouring-fresh-milk-into-a-glass-in-slow-motion-42610-large.mp4",
+      "https://res.cloudinary.com/degry7aqj/video/upload/v1778769558/Video-627_iny8lz.mp4",
+      "https://res.cloudinary.com/degry7aqj/video/upload/v1778769513/Video-811_kskkck.mp4",
+      "https://res.cloudinary.com/degry7aqj/video/upload/v1778769508/Video-783_u9ivu1.mp4",
+      "https://res.cloudinary.com/degry7aqj/video/upload/v1778769434/Video-811_emvecb.mp4",
+      "https://res.cloudinary.com/degry7aqj/video/upload/v1778769558/Video-627_iny8lz.mp4",
     ],
   },
   categoryShowcase: [
