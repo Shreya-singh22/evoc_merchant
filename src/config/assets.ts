@@ -1,3 +1,5 @@
+export const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
+
 export const ASSETS = {
   reviews: [
     "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",

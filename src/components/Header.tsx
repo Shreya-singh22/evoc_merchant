@@ -7,7 +7,7 @@ import { useCart } from "@/context/CartContext";
 
 
 import { api } from "@/lib/api";
-
+import { BASE_PATH } from "@/config/assets";
 export default function Header() {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -73,9 +73,9 @@ export default function Header() {
 
         {/* Center Logo */}
         <div className="flex-shrink-0 flex items-center justify-center">
-          <a href={`/`} className="flex items-center group select-none">
+          <a href={`${BASE_PATH}/`} className="flex items-center group select-none">
             <img 
-              src={`/moonstruck-logo.jpg`} 
+              src={`${BASE_PATH}/moonstruck-logo.jpg`} 
               alt="Moonstruck Logo" 
               className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
               style={{ mixBlendMode: 'multiply' }}

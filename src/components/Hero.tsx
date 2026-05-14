@@ -2,13 +2,14 @@
 
 import React from "react";
 
+import { BASE_PATH } from "@/config/assets";
 
 export default function Hero() {
   return (
     <div className="relative w-full overflow-hidden select-none bg-cream flex">
       {/* Primary Hero Banner Image */}
       <img
-        src={`/moonstruck-banner.jpg`}
+        src={`${BASE_PATH}/moonstruck-banner.jpg`}
         alt="Elevate Your Home with Curated Essentials"
         className="w-full aspect-[1600/750] object-cover"
         onError={(e) => {

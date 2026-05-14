@@ -19,6 +19,7 @@ import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import { BASE_PATH } from "@/config/assets";
 
 export default function Home() {
   
@@ -43,7 +44,7 @@ export default function Home() {
           {/* High Impact Kuro Banner */}
           <div className="w-full mt-16 mb-8 select-none animate-fade-in">
             <img 
-              src={`/kuro-banner.png`} 
+              src={`${BASE_PATH}/kuro-banner.png`} 
               alt="Moonstruck Kuro Mixer Grinder Banner" 
               className="w-full h-auto block"
             />

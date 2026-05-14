@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Globe, MessageCircle, Share2, ShieldCheck, Heart } from "lucide-react";
-
+import { BASE_PATH } from "@/config/assets";
 export default function Footer() {
   
   return (
@@ -11,9 +11,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14 mb-16 select-none animate-fade-in">
         {/* Column 1 - Brand & Contact */}
         <div className="flex flex-col items-start gap-4 lg:col-span-2">
-          <a href={`/`} className="flex items-center group select-none mb-2">
+          <a href={`${BASE_PATH}/`} className="flex items-center group select-none mb-2">
             <img 
-              src={`/moonstruck-logo.jpg`} 
+              src={`${BASE_PATH}/moonstruck-logo.jpg`} 
               alt="Moonstruck Logo" 
               className="h-10 md:h-12 w-auto object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all"
               style={{ filter: "invert(1) hue-rotate(180deg)", mixBlendMode: "screen" }}
@@ -92,7 +92,7 @@ export default function Footer() {
           >
             Powered by
             <img
-              src={`/evoclabs-logo.png`}
+              src={`${BASE_PATH}/evoclabs-logo.png`}
               alt="EvocLabs Logo"
               className="h-7 w-auto object-contain"
             />
