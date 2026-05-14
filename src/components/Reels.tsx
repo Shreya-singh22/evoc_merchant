@@ -1,77 +1,51 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { Play, Volume2, VolumeX, X, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { Volume2, VolumeX, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
+import Link from "next/link";
 import { ASSETS } from "@/config/assets";
-import { useCart } from "@/context/CartContext";
 
 const REELS_DATA = [
   {
     id: "reel-1",
     title: "Grinding wet masala to fine perfection",
     sub: "Indian Spices Demo",
+    category: "Mixer Grinders",
     video: ASSETS.reels.videos[0],
-    product: {
-      id: "prod_1",
-      name: "Ultra-Grind 750W Mixer Grinder",
-      price: 3499,
-      image: ASSETS.reels.images[0],
-    },
   },
   {
     id: "reel-2",
     title: "Cooling large rooms in minutes",
     sub: "Beat the Indian Summer",
+    category: "Air Coolers",
     video: ASSETS.reels.videos[1],
-    product: {
-      id: "prod_2",
-      name: "AeroCool Pro Air Cooler",
-      price: 8499,
-      image: ASSETS.reels.images[1],
-    },
   },
   {
     id: "reel-3",
     title: "Effortless garment steaming",
     sub: "The perfect crease-remover",
+    category: "Steam Irons",
     video: ASSETS.reels.videos[2],
-    product: {
-      id: "prod_4",
-      name: "Smart Laundry Starter Pack",
-      price: 2499,
-      image: ASSETS.reels.images[2],
-    },
   },
   {
     id: "reel-4",
     title: "Energy efficient BLDC ceiling fan",
     sub: "Whisper-quiet air flow",
+    category: "Ceiling Fans",
     video: ASSETS.reels.videos[3],
-    product: {
-      id: "prod_5",
-      name: "AeroBreeze Ceiling Fan",
-      price: 3299,
-      image: ASSETS.reels.images[3],
-    },
   },
   {
     id: "reel-5",
     title: "Fast boiling for your morning tea",
     sub: "Instant Hot Water",
+    category: "Electric Kettles",
     video: ASSETS.reels.videos[4],
-    product: {
-      id: "prod_6",
-      name: "Lava Electric Kettle",
-      price: 1299,
-      image: ASSETS.reels.images[4],
-    },
   },
 ];
 
 export default function Reels() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
-  const { addToCart } = useCart();
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % REELS_DATA.length);
@@ -92,10 +66,10 @@ export default function Reels() {
 
   return (
     <section id="reels" className="py-20 md:py-28 w-full mx-auto px-0 select-none bg-white overflow-hidden flex flex-col items-center">
-      
+
       {/* 3D Coverflow Carousel Container */}
       <div className="relative w-full max-w-7xl mx-auto h-[450px] md:h-[600px] flex items-center justify-center">
-        
+
         {/* Navigation Arrows */}
         <button
           onClick={handlePrev}
@@ -117,7 +91,7 @@ export default function Reels() {
           const diff = idx - currentIndex;
           let offset = diff;
           const halfLength = Math.floor(REELS_DATA.length / 2);
-          
+
           if (offset > halfLength) offset -= REELS_DATA.length;
           if (offset < -halfLength) offset += REELS_DATA.length;
 
@@ -186,25 +160,23 @@ export default function Reels() {
         })}
       </div>
 
-      {/* Active Product Info - matching screenshot layout exactly */}
+      {/* Active Reel Caption + Shop Category CTA */}
       <div className="flex flex-col items-center justify-center mt-6 animate-fade-in z-30 relative px-4">
-        <h4 className="text-sm md:text-base font-medium text-charcoal text-center tracking-tight mb-2">
-          {REELS_DATA[currentIndex].product.name}
+        <span className="text-[10px] md:text-xs text-primary font-black tracking-widest uppercase mb-1">
+          {REELS_DATA[currentIndex].sub}
+        </span>
+        <h4 className="text-sm md:text-base font-medium text-charcoal text-center tracking-tight mb-3">
+          {REELS_DATA[currentIndex].title}
         </h4>
-        <div className="flex items-center justify-center gap-3 cursor-pointer group" onClick={() => addToCart({...REELS_DATA[currentIndex].product, quantity: 1})}>
-          <div className="w-12 h-12 bg-transparent flex items-center justify-center transition-transform group-hover:scale-110">
-            <img 
-              src={REELS_DATA[currentIndex].product.image} 
-              alt={REELS_DATA[currentIndex].product.name}
-              className="w-full h-full object-contain drop-shadow-sm" 
-            />
-          </div>
-          <div className="bg-primary text-white p-2 rounded-full shadow-md group-hover:bg-primary/90 group-hover:shadow-lg transition-all flex items-center justify-center">
-             <ShoppingCart size={16} />
-          </div>
-        </div>
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary/95 text-white font-black text-xs md:text-sm px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer"
+        >
+          <ShoppingBag size={14} />
+          Shop {REELS_DATA[currentIndex].category}
+        </Link>
       </div>
-      
+
     </section>
   );
 }

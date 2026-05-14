@@ -16,7 +16,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { PRODUCTS_CATALOG, Product } from "@/data/products";
+import { Product } from "@/types/product";
 import PromoBar from "@/components/PromoBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -27,12 +27,13 @@ import { api } from "@/lib/api";
 const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 // Available categories for filtering
-export default function ProductsClient({ initialProducts = [] }: { initialProducts?: Product[] }) {
+export default function ProductsClient() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { addToCart } = useCart();
   const [categories, setCategories] = useState<string[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     api.getCategories().then(setCategories).catch(console.error);
@@ -79,9 +80,26 @@ export default function ProductsClient({ initialProducts = [] }: { initialProduc
         console.error(e);
       }
     }
-    // Simulate premium loading state with skeleton shimmers
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
+  }, []);
+
+  // Fetch products from API
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    api.getProducts()
+      .then((data) => {
+        if (!cancelled) setProducts(data || []);
+      })
+      .catch((err) => {
+        console.error("Failed to load products:", err);
+        if (!cancelled) setProducts([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Update URL search parameters
@@ -152,7 +170,7 @@ export default function ProductsClient({ initialProducts = [] }: { initialProduc
 
   // --- Filter and Sort logic ---
   const filteredProducts = useMemo(() => {
-    return (initialProducts || []).filter((product) => {
+    return (products || []).filter((product) => {
       if (!product) return false;
 
       // 1. Availability Filter
@@ -198,7 +216,7 @@ export default function ProductsClient({ initialProducts = [] }: { initialProduc
           return bFeatured - aFeatured || (a.id || "").localeCompare(b.id || "");
       }
     });
-  }, [initialProducts, currentSort, currentInStockOnly, currentSelectedCategories, currentMinPrice, currentMaxPrice]);
+  }, [products, currentSort, currentInStockOnly, currentSelectedCategories, currentMinPrice, currentMaxPrice]);
 
   // Format currency in Indian standard ₹1,399 format
   const formatCurrency = (val: number) => {

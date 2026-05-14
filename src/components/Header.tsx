@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, User, Heart, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { User, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 
@@ -93,12 +94,6 @@ export default function Header() {
 
         {/* Right Nav Icons */}
         <div className="flex-1 flex items-center justify-end gap-2 md:gap-4">
-          <button className="p-2 text-charcoal hover:text-primary transition-colors hover:bg-white rounded-full cursor-pointer hidden sm:flex">
-            <Search size={22} />
-          </button>
-          <button className="p-2 text-charcoal hover:text-primary transition-colors hover:bg-white rounded-full cursor-pointer relative hidden sm:flex">
-            <Heart size={22} />
-          </button>
           <button
             onClick={() => setIsCartOpen(true)}
             className="p-2 text-charcoal hover:text-primary transition-all hover:bg-white rounded-full cursor-pointer relative flex items-center group"
@@ -116,36 +111,30 @@ export default function Header() {
       {/* Secondary Nav Row */}
       <div className="hidden md:flex border-t border-primary/10 bg-cream max-w-7xl mx-auto justify-center px-6">
         <nav className="flex items-center gap-10 h-10 select-none">
-          <a
-            href={`${BASE_PATH}/products`}
+          <Link
+            href="/products"
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             All Products
-          </a>
-          <a
-            href={`${BASE_PATH}/about-us`}
+          </Link>
+          <Link
+            href="/about"
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             About Us
-          </a>
-          <a
-            href="#stats"
+          </Link>
+          <Link
+            href="/warranty"
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             Warranty & Service
-          </a>
-          <a
-            href="#articles"
-            className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
-          >
-            Expert Guides
-          </a>
-          <a
-            href={`${BASE_PATH}/contact-us`}
+          </Link>
+          <Link
+            href="/contact"
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             Contact
-          </a>
+          </Link>
         </nav>
       </div>
 

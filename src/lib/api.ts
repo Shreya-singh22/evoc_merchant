@@ -1,7 +1,7 @@
 import { APIResponse, PaginatedProducts, StorefrontProduct, StorefrontInfo } from "@/types/storefront";
-import { Product } from "@/data/products";
+import { Product } from "@/types/product";
 
-const API_BASE_URL = "https://api.evoclabs.com/api";
+const API_BASE_URL = "http://localhost:5002/api";
 const DEFAULT_SUBDOMAIN = "toys";
 
 /**
@@ -14,7 +14,7 @@ function mapStorefrontProduct(p: StorefrontProduct): Product {
 
   return {
     id: p.id,
-    slug: p.id,
+    slug: p.slug || p.id,
     title: p.name,
     subtitle: p.description || "",
     color: "",
@@ -24,8 +24,8 @@ function mapStorefrontProduct(p: StorefrontProduct): Product {
     discountPct: discountPct,
     inStock: p.stock > 0,
     tags: [p.category, ...(p.tags || [])].filter(Boolean),
-    images: (p.images || []).filter(img => img && typeof img === 'string').length > 0 
-      ? (p.images || []).filter(img => img && typeof img === 'string') 
+    images: (p.images || []).filter(img => img && typeof img === 'string').length > 0
+      ? (p.images || []).filter(img => img && typeof img === 'string')
       : ["/placeholder-product.png"],
     rating: 4.5,
     reviewsCount: Math.floor(Math.random() * 100),
@@ -60,13 +60,26 @@ export const api = {
     return (json.data.products || []).map(mapStorefrontProduct);
   },
 
+  async getProductsByFlag(
+    flag: "isBestSeller" | "isValueCombo" | "isNewArrival" | "isFeatured",
+    subdomain: string = DEFAULT_SUBDOMAIN
+  ): Promise<StorefrontProduct[]> {
+    const res = await fetch(
+      `${API_BASE_URL}/storefront/public/${subdomain}/products?${flag}=true`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) throw new Error(`Failed to fetch products`);
+    const json: APIResponse<PaginatedProducts> = await res.json();
+    return json.data.products || [];
+  },
+
   async getProduct(id: string, subdomain: string = DEFAULT_SUBDOMAIN): Promise<Product | null> {
     try {
       // 1. Try the specific detail API first
       const res = await fetch(`${API_BASE_URL}/storefront/public/${subdomain}/products/${id}`, {
         cache: 'force-cache',
       });
-      
+
       if (res.ok) {
         const json: APIResponse<StorefrontProduct> = await res.json();
         return mapStorefrontProduct(json.data);
@@ -76,7 +89,7 @@ export const api = {
       console.warn(`Detail API failed for ${id}, falling back to list search...`);
       const allProducts = await this.getProducts(subdomain);
       const found = allProducts.find(p => p.id === id || p.slug === id);
-      
+
       return found || null;
     } catch (error) {
       console.error(`Network error fetching product ${id}:`, error);

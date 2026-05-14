@@ -22,44 +22,7 @@ export const ASSETS = {
       "https://assets.mixkit.co/videos/preview/mixkit-man-hand-adjusting-thermostat-on-air-conditioner-42588-large.mp4",
       "https://assets.mixkit.co/videos/preview/mixkit-pouring-fresh-milk-into-a-glass-in-slow-motion-42610-large.mp4",
     ],
-    images: [
-      "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1583241475879-da372d62efef?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1522003885544-77bbfa7be199?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
-    ],
   },
-  featuredProduct: {
-    mainImage: "https://images.unsplash.com/photo-1583241475879-da372d62efef?auto=format&fit=crop&w=800&q=80",
-    cartImage: "https://images.unsplash.com/photo-1583241475879-da372d62efef?auto=format&fit=crop&w=600&q=80",
-  },
-  discover: [
-    {
-      image1: "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
-      image2: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      image1: "https://images.unsplash.com/photo-1583241475879-da372d62efef?auto=format&fit=crop&w=600&q=80",
-      image2: "https://images.unsplash.com/photo-1583241475518-e3663a8e9471?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      image1: "https://images.unsplash.com/photo-1517256011251-8e0309320e8b?auto=format&fit=crop&w=600&q=80",
-      image2: "https://images.unsplash.com/photo-1517256011406-896bf54fc487?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      image1: "https://images.unsplash.com/photo-1522003885544-77bbfa7be199?auto=format&fit=crop&w=600&q=80",
-      image2: "https://images.unsplash.com/photo-1522003885348-77bbfa7be200?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      image1: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80",
-      image2: "https://images.unsplash.com/photo-1544161515-4ab6ce6db875?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      image1: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=80",
-      image2: "https://images.unsplash.com/photo-1521737711867-e3b97375f903?auto=format&fit=crop&w=600&q=80",
-    },
-  ],
   categoryShowcase: [
     "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=600&q=80",
