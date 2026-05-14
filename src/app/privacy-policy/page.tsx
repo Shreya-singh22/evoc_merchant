@@ -8,7 +8,6 @@ import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { ShieldCheck, Mail, Phone, Calendar, ChevronRight } from "lucide-react";
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 export default function PrivacyPolicy() {
   const lastUpdated = "May 13, 2026";
@@ -23,7 +22,7 @@ export default function PrivacyPolicy() {
       <main className="flex-grow pt-8 pb-20 px-4 md:px-6">
         {/* Breadcrumbs */}
         <nav className="max-w-4xl mx-auto flex items-center gap-2 text-[10px] uppercase tracking-widest text-charcoal/50 mb-8 animate-fade-in">
-          <a href={`${BASE_PATH}/`} className="hover:text-primary transition-colors">Home</a>
+          <a href={`/`} className="hover:text-primary transition-colors">Home</a>
           <ChevronRight size={10} />
           <span className="text-charcoal font-bold">Privacy Policy</span>
         </nav>

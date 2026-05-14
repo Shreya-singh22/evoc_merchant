@@ -9,12 +9,11 @@ export default function MobileBottomNav() {
 
   const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
-
+  
   return (
     <div className="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t border-primary/20 p-2.5 flex items-center justify-around z-50 shadow-2xl select-none backdrop-blur-md">
       <a
-        href={`${BASE_PATH}/`}
+        href={`/`}
         className="flex flex-col items-center gap-0.5 text-center text-charcoal hover:text-primary transition-colors cursor-pointer select-none"
       >
         <Home size={20} className="text-charcoal/80" />
@@ -22,7 +21,7 @@ export default function MobileBottomNav() {
       </a>
 
       <a
-        href={`${BASE_PATH}/products`}
+        href={`/products`}
         className="flex flex-col items-center gap-0.5 text-center text-charcoal hover:text-primary transition-colors cursor-pointer select-none"
       >
         <Compass size={20} className="text-charcoal/80" />

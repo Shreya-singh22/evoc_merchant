@@ -2,14 +2,13 @@
 
 import React from "react";
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 export default function Hero() {
   return (
     <div className="relative w-full overflow-hidden select-none bg-cream flex">
       {/* Primary Hero Banner Image */}
       <img
-        src={`${BASE_PATH}/moonstruck-banner.jpg`}
+        src={`/moonstruck-banner.jpg`}
         alt="Elevate Your Home with Curated Essentials"
         className="w-full aspect-[1600/750] object-cover"
         onError={(e) => {

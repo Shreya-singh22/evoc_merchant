@@ -9,8 +9,7 @@ import { Lock, MoveRight, ShieldCheck, CreditCard, Gift, PartyPopper, Loader2 } 
 import { api } from "@/lib/api";
 
 export default function CheckoutClient() {
-  const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
-  const getMediaUrl = (src: string) => (src && typeof src === 'string') ? (src.startsWith('http') ? src : `${BASE_PATH}${src}`) : '';
+    const getMediaUrl = (src: string) => (src && typeof src === 'string') ? (src.startsWith('http') ? src : `${src}`) : '';
 
   const { cartItems, setCartItems } = useCart() as any;
   const [isSuccess, setIsSuccess] = useState(false);

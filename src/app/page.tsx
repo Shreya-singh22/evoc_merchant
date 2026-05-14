@@ -21,8 +21,7 @@ import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 
 export default function Home() {
-  const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
-
+  
   return (
     <div className="flex flex-col min-h-screen select-none bg-cream text-charcoal pb-14 sm:pb-0">
       {/* Top Promo Bar & Primary Navigation */}
@@ -44,7 +43,7 @@ export default function Home() {
           {/* High Impact Kuro Banner */}
           <div className="w-full mt-16 mb-8 select-none animate-fade-in">
             <img 
-              src={`${BASE_PATH}/kuro-banner.png`} 
+              src={`/kuro-banner.png`} 
               alt="Moonstruck Kuro Mixer Grinder Banner" 
               className="w-full h-auto block"
             />
