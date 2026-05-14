@@ -13,7 +13,6 @@ import CategoryShowcase from "@/components/CategoryShowcase";
 import FeaturedProduct from "@/components/FeaturedProduct";
 import StatsTrust from "@/components/StatsTrust";
 
-import Certifications from "@/components/Certifications";
 import Reviews from "@/components/Reviews";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
@@ -54,7 +53,6 @@ export default function Home() {
           <FeaturedProduct />
           <StatsTrust />
 
-          <Certifications />
           <Reviews />
           <FAQ />
         </main>
