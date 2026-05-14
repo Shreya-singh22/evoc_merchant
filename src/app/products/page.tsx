@@ -3,7 +3,7 @@ import ProductsClient from "./ProductsClient";
 
 export default function ProductsPage() {
   return (
-    <Suspense>
+    <Suspense fallback={null}>
       <ProductsClient />
     </Suspense>
   );
