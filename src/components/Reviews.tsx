@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Star, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ShieldCheck, ChevronLeft, ChevronRight, User } from "lucide-react";
 import { ASSETS } from "@/config/assets";
 
 const REVIEWS_DATA = [
@@ -115,8 +115,8 @@ export default function Reviews() {
           >
             <div className="flex items-center justify-between mb-4 select-none">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden border border-primary/20 flex-shrink-0">
-                  <img src={r.image} alt={r.name} className="w-full h-full object-cover" loading="lazy" />
+                <div className="w-12 h-12 rounded-full overflow-hidden border border-primary/20 flex-shrink-0 flex items-center justify-center bg-gray-100 text-charcoal/50">
+                  <User size={24} />
                 </div>
                 <div>
                   <h4 className="text-sm font-black text-charcoal">{r.name}</h4>

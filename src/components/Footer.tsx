@@ -81,20 +81,20 @@ export default function Footer() {
 
       {/* Bottom Legal & Payment Strip */}
       <div className="border-t border-white/5 pt-6 mt-4 max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 select-none">
-        <div className="flex items-center gap-2 text-xs md:text-sm text-white/40 font-semibold tracking-wide">
+        <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-2 md:gap-3 text-xs md:text-sm text-white/40 font-semibold tracking-wide text-center">
           <span>&copy; {new Date().getFullYear()} Moonstruck Appliances. All Rights Reserved.</span>
-          <span>•</span>
+          <span className="hidden md:inline">•</span>
           <a
             href="https://evoclabs.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 font-bold text-[#29ace4] group transition-all hover:brightness-110 cursor-pointer"
+            className="flex items-center justify-center gap-1.5 font-bold text-[#29ace4] group transition-all hover:brightness-110 cursor-pointer"
           >
             Powered by
             <img
               src={`${BASE_PATH}/evoclabs-logo.png`}
               alt="EvocLabs Logo"
-              className="h-7 w-auto object-contain"
+              className="h-6 md:h-7 w-auto object-contain"
             />
             EvocLabs
           </a>

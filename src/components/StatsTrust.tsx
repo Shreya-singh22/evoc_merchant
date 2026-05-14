@@ -40,11 +40,11 @@ export default function StatsTrust() {
   return (
     <section id="stats" className="py-16 bg-cream/40 border-y border-primary/10 select-none">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4 items-center justify-between">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-4 items-stretch">
           {STATS.map((s) => (
             <div
               key={s.id}
-              className="flex flex-col items-center text-center gap-3 p-4 bg-white/40 border border-primary/5 hover:border-primary/20 rounded-2xl hover:bg-white hover:shadow-md transition-all duration-300"
+              className="w-[calc(50%-12px)] md:flex-1 md:w-auto flex flex-col items-center text-center gap-3 p-4 bg-white/40 border border-primary/5 hover:border-primary/20 rounded-2xl hover:bg-white hover:shadow-md transition-all duration-300"
             >
               <div className="p-3 bg-primary/10 text-primary border border-primary/10 rounded-xl">
                 {s.icon}
