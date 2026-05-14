@@ -24,7 +24,6 @@ import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { api } from "@/lib/api";
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 // Available categories for filtering
 export default function ProductsClient() {
@@ -240,7 +239,7 @@ export default function ProductsClient() {
       <main className="flex-grow max-w-7xl w-full mx-auto px-4 md:px-6 py-6 md:py-10">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-widest text-charcoal/50 mb-6 font-medium">
-          <a href={`${BASE_PATH}/`} className="hover:text-primary transition-colors">Home</a>
+          <a href={`/`} className="hover:text-primary transition-colors">Home</a>
           <span>/</span>
           <span className="text-charcoal font-bold">All Products</span>
         </nav>
@@ -548,7 +547,7 @@ export default function ProductsClient() {
                       </button>
 
                       {/* Product Image Swap Area */}
-                      <a href={`${BASE_PATH}/products/${product?.slug || ""}`} className="relative aspect-square w-full overflow-hidden bg-cream/10 border-b border-primary/5 block">
+                      <a href={`/products/${product?.slug || ""}`} className="relative aspect-square w-full overflow-hidden bg-cream/10 border-b border-primary/5 block">
                         <img
                           src={product?.images?.[0] || ""}
                           alt={product?.title || ""}
@@ -579,7 +578,7 @@ export default function ProductsClient() {
                         {/* Title & Technical features */}
                         <div className="flex flex-col gap-1 flex-grow">
                           <a
-                            href={`${BASE_PATH}/products/${product?.slug || ""}`}
+                            href={`/products/${product?.slug || ""}`}
                             className="text-base font-serif font-black text-charcoal hover:text-primary transition-colors leading-tight line-clamp-2"
                           >
                             {product?.title || ""}

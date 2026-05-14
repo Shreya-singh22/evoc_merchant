@@ -8,7 +8,6 @@ import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { Star, ShieldCheck, ChevronLeft, ChevronRight, Truck, Award, CheckCircle2, Zap, Heart, Mail, Phone, MapPin, ChevronDown, ChevronUp, Quote } from "lucide-react";
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 // Animated Number Hook
 const AnimatedCounter = ({ target, suffix = "", duration = 1500 }: { target: number; suffix?: string; duration?: number }) => {
@@ -172,7 +171,7 @@ export default function AboutUs() {
               Kitchen appliances genuinely built for Indian kitchens.
             </p>
             <a 
-              href={`${BASE_PATH}/products`}
+              href={`/products`}
               className="mt-4 bg-primary hover:bg-primary/95 text-white font-black uppercase tracking-widest px-10 py-5 rounded-xl shadow-xl hover:shadow-primary/30 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3 text-sm md:text-base group"
             >
               Shop Now

@@ -8,7 +8,6 @@ import CartDrawer from "@/components/CartDrawer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { Mail, Phone, MapPin, Clock, ChevronRight, Send, MessageSquare, CheckCircle2 } from "lucide-react";
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 export default function ContactUs() {
   const [formState, setFormState] = useState({
@@ -42,7 +41,7 @@ export default function ContactUs() {
       <main className="flex-grow pt-8 pb-20 px-4 md:px-6">
         {/* Breadcrumbs */}
         <nav className="max-w-6xl mx-auto flex items-center gap-2 text-[10px] uppercase tracking-widest text-charcoal/50 mb-8 animate-fade-in">
-          <a href={`${BASE_PATH}/`} className="hover:text-primary transition-colors">Home</a>
+          <a href={`/`} className="hover:text-primary transition-colors">Home</a>
           <ChevronRight size={10} />
           <span className="text-charcoal font-bold">Contact Us</span>
         </nav>
@@ -200,7 +199,7 @@ export default function ContactUs() {
 
                 {/* Disclaimer Text */}
                 <p className="text-[11px] text-charcoal/40 leading-relaxed">
-                  By submitting this form, you agree to be contacted by the Moonstruck support department in relation to your inquiry. View our <a href={`${BASE_PATH}/privacy-policy`} className="underline hover:text-primary font-bold">Privacy Policy</a>.
+                  By submitting this form, you agree to be contacted by the Moonstruck support department in relation to your inquiry. View our <a href={`/privacy-policy`} className="underline hover:text-primary font-bold">Privacy Policy</a>.
                 </p>
 
                 {/* Submit Button */}

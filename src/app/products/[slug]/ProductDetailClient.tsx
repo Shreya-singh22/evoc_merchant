@@ -12,7 +12,6 @@ import { useCart } from "@/context/CartContext";
 import { Product } from "@/types/product";
 import { api } from "@/lib/api";
 
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/evoc_merchant' : '';
 
 const FAQ_ITEMS = [
   { q: "What is the warranty period?", a: "We offer a 2-year comprehensive warranty on the motor and a 1-year warranty on the product body." },
@@ -29,7 +28,7 @@ const WATCH_REELS = [
 ];
 
 // Helper to allow seamless switching between local public/ assets and Cloudinary URLs
-const getMediaUrl = (src: string) => (src && typeof src === 'string') ? (src.startsWith('http') ? src : `${BASE_PATH}${src}`) : '';
+const getMediaUrl = (src: string) => (src && typeof src === 'string') ? (src.startsWith('http') ? src : `${src}`) : '';
 
 const ImageWithFallback = ({ src, alt, className }: any) => {
   const [error, setError] = useState(false);
@@ -181,7 +180,7 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
               The product you're looking for is no longer available or the link may be incorrect.
             </p>
             <a
-              href={`${BASE_PATH}/products`}
+              href={`/products`}
               className="bg-primary hover:bg-primary/95 text-white font-black uppercase text-xs tracking-widest py-3.5 px-8 rounded-full shadow-lg transition-all"
             >
               Browse All Products
@@ -209,11 +208,11 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
         <section className="max-w-7xl mx-auto px-4 md:px-6 pt-6 pb-16">
           {/* Breadcrumb */}
           <nav className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-widest text-charcoal/50 mb-6">
-            <a href={`${BASE_PATH}/`} className="hover:text-primary transition-colors">Home</a>
+            <a href={`/`} className="hover:text-primary transition-colors">Home</a>
             <span>/</span>
-            <a href={`${BASE_PATH}/#kitchen-appliances`} className="hover:text-primary transition-colors">Kitchen Appliances</a>
+            <a href={`/#kitchen-appliances`} className="hover:text-primary transition-colors">Kitchen Appliances</a>
             <span>/</span>
-            <a href={`${BASE_PATH}/#mixer-grinders`} className="hover:text-primary transition-colors">Mixer Grinders</a>
+            <a href={`/#mixer-grinders`} className="hover:text-primary transition-colors">Mixer Grinders</a>
             <span>/</span>
             <span className="text-charcoal font-bold">{PRODUCT.name}</span>
           </nav>
