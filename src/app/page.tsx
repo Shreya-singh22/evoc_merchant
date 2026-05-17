@@ -9,7 +9,6 @@ import ValueMarquee from "@/components/ValueMarquee";
 import Discover from "@/components/Discover";
 
 import Reels from "@/components/Reels";
-import CategoryShowcase from "@/components/CategoryShowcase";
 import FeaturedProduct from "@/components/FeaturedProduct";
 import StatsTrust from "@/components/StatsTrust";
 
@@ -49,7 +48,6 @@ export default function Home() {
             />
           </div>
 
-          <CategoryShowcase />
           <FeaturedProduct />
           <StatsTrust />
 
