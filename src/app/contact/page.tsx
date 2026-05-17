@@ -70,39 +70,21 @@ interface ChannelCard {
 const CHANNELS: ChannelCard[] = [
   {
     icon: <Phone size={22} className="text-primary" />,
-    eyebrow: "Toll Free",
+    eyebrow: "Customer Support",
     title: "Call our helpline",
-    value: "+91 1800-200-1122",
-    href: "tel:+918001001122",
-    secondary: "Mon to Sat, 9 AM – 7 PM IST",
+    value: "+1 (880) 567 891 505",
+    href: "tel:+1880567891505",
+    secondary: "Monday – Friday: 8:00-20:00",
     badge: "Fastest",
-  },
-  {
-    icon: <MessageCircle size={22} className="text-forest" />,
-    eyebrow: "WhatsApp",
-    title: "Chat in two taps",
-    value: "+91 98200 01122",
-    href: "https://wa.me/919820001122",
-    secondary: "Replies in under 15 minutes",
-    badge: "24x7 Bot",
   },
   {
     icon: <Mail size={22} className="text-primary" />,
     eyebrow: "Customer Care",
     title: "Email support team",
-    value: "care@moonstruck.co.in",
-    href: "mailto:care@moonstruck.co.in",
-    secondary: "Answered within 4 working hours",
+    value: "electrozsupport@mail.com",
+    href: "mailto:electrozsupport@mail.com",
+    secondary: "Answered within 24 working hours",
     badge: "Verified",
-  },
-  {
-    icon: <Handshake size={22} className="text-gold" />,
-    eyebrow: "Business",
-    title: "Bulk & partnerships",
-    value: "sales@moonstruck.co.in",
-    href: "mailto:sales@moonstruck.co.in",
-    secondary: "B2B, distributor & gifting enquiries",
-    badge: "B2B",
   },
 ];
 
@@ -146,10 +128,8 @@ const SERVICE_CENTERS: ServiceCenter[] = [
 ];
 
 const BUSINESS_HOURS: Array<{ day: string; hours: string; note?: string }> = [
-  { day: "Monday – Friday", hours: "9:00 AM – 7:00 PM" },
-  { day: "Saturday", hours: "10:00 AM – 5:00 PM" },
-  { day: "Sunday", hours: "Closed", note: "WhatsApp bot remains active" },
-  { day: "National Holidays", hours: "Closed" },
+  { day: "Monday – Friday", hours: "8:00 – 20:00" },
+  { day: "Saturday – Sunday", hours: "Closed" },
 ];
 
 const INITIAL_FORM: ContactFormState = {
@@ -246,22 +226,18 @@ export default function ContactPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Get In Touch
               </span>
               <h1 className="text-4xl md:text-6xl font-black text-charcoal tracking-tight leading-[1.05]">
-                We&apos;re here to help, every step of the way.
+                Keep In Touch with Us
               </h1>
               <p className="text-charcoal/70 text-base md:text-lg leading-relaxed max-w-2xl">
-                Whether it&apos;s a question before you buy, a service visit for your
-                Moonstruck appliance, or a partnership idea — talk to a real
-                person. Most queries are answered within{" "}
-                <strong className="text-charcoal">4 working hours</strong>, and
-                no call gets passed around more than twice. That&apos;s our promise.
+                We do not sell product from our corporate headquarters in New York City. If you want to visit please reach out to our customer service team first.
               </p>
 
               <div className="flex flex-wrap items-center gap-3 mt-2">
                 <a
-                  href="tel:+918001001122"
+                  href="tel:+1880567891505"
                   className="inline-flex items-center gap-2 bg-primary hover:bg-primary/95 text-white font-black text-sm px-6 py-3.5 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-md"
                 >
-                  <Phone size={16} /> Call 1800-200-1122
+                  <Phone size={16} /> Call +1 (880) 567 891 505
                 </a>
                 <a
                   href="#contact-form"
@@ -269,9 +245,6 @@ export default function ContactPage() {
                 >
                   Write to us <ArrowRight size={16} />
                 </a>
-                <span className="inline-flex items-center gap-2 text-xs font-bold text-forest bg-forest/10 border border-forest/20 px-3 py-2 rounded-full">
-                  <ShieldCheck size={14} /> ISO 9001 certified service
-                </span>
               </div>
             </div>
           </div>
@@ -635,35 +608,30 @@ export default function ContactPage() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/50">
-                      Registered Office
+                      Corporate HQ
                     </span>
                     <h3 className="text-xl md:text-2xl font-black text-charcoal leading-tight">
-                      Moonstruck Appliances Pvt. Ltd.
+                      Corporate Headquarters
                     </h3>
                     <p className="text-sm text-charcoal/70 leading-relaxed mt-1">
-                      104, Industrial Area Phase II,
+                      Sydney road,
                       <br />
-                      Andheri East, Mumbai,
+                      Billboard Street 2219-11C,
                       <br />
-                      Maharashtra 400072, India
+                      New York City, USA
                     </p>
                   </div>
                 </div>
 
-                <div className="border-t border-primary/10 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="border-t border-primary/10 pt-4 flex flex-col gap-3">
+                  <span className="text-xs text-primary font-bold">
+                    * Note: We do not sell product from our corporate headquarters. If you want to visit, please reach out to customer service first.
+                  </span>
                   <a
-                    href="https://www.google.com/maps/dir/?api=1&destination=Andheri+East+Mumbai+400072"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-white text-charcoal border border-charcoal/15 hover:border-primary hover:text-primary font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer hover:shadow-sm"
-                  >
-                    <MapPin size={14} /> Get Directions
-                  </a>
-                  <a
-                    href="tel:+912248152200"
+                    href="tel:+1880567891505"
                     className="inline-flex items-center justify-center gap-2 bg-charcoal hover:bg-charcoal/90 text-white font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer hover:shadow-sm"
                   >
-                    <Phone size={14} /> +91 22 4815 2200
+                    <Phone size={14} /> +1 (880) 567 891 505
                   </a>
                 </div>
               </div>
@@ -671,8 +639,8 @@ export default function ContactPage() {
               {/* Map placeholder */}
               <div className="relative bg-charcoal/5 aspect-square md:aspect-[4/3] rounded-2xl border border-primary/10 overflow-hidden group">
                 <iframe
-                  title="Moonstruck Appliances HQ — Mumbai"
-                  src="https://www.google.com/maps?q=Andheri+East,Mumbai,Maharashtra+400072&output=embed"
+                  title="Corporate HQ — New York City"
+                  src="https://www.google.com/maps?q=New+York+City,USA&output=embed"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="absolute inset-0 w-full h-full grayscale-[35%] group-hover:grayscale-0 transition-all"
@@ -684,7 +652,7 @@ export default function ContactPage() {
                       HQ Pin
                     </span>
                     <span className="text-sm font-black text-charcoal leading-tight">
-                      Mumbai, Maharashtra
+                      New York City, USA
                     </span>
                   </div>
                 </div>
@@ -738,80 +706,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* 4. SERVICE CENTERS */}
-        <section className="py-20 md:py-28 max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div className="max-w-xl flex flex-col gap-2">
-              <span className="text-primary text-xs md:text-sm font-black tracking-widest uppercase flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Walk-In Hubs
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black text-charcoal tracking-tight">
-                Drop by a service centre.
-              </h2>
-              <p className="text-charcoal/70 text-sm md:text-base leading-relaxed">
-                Genuine spares, certified engineers, and zero appointment-only
-                gatekeeping. Three flagship hubs across India — more rolling out
-                through 2026.
-              </p>
-            </div>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 bg-white text-charcoal border border-charcoal/15 hover:border-primary hover:text-primary font-bold text-sm px-6 py-3.5 rounded-xl transition-all cursor-pointer hover:shadow-sm self-start md:self-end"
-            >
-              See full network <ArrowRight size={14} />
-            </a>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 animate-fade-in">
-            {SERVICE_CENTERS.map((s) => (
-              <div
-                key={s.city}
-                className="bg-white rounded-2xl border border-primary/10 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 p-6 md:p-7 flex flex-col gap-4 group"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/40">
-                      {s.region}
-                    </span>
-                    <h3 className="text-2xl font-black text-charcoal leading-tight group-hover:text-primary transition-colors">
-                      {s.city}
-                    </h3>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Headphones size={18} className="text-primary" />
-                  </div>
-                </div>
-
-                <p className="text-sm text-charcoal/70 leading-relaxed">
-                  {s.address}
-                </p>
-
-                <div className="border-t border-primary/10 pt-4 flex flex-col gap-2">
-                  <a
-                    href={s.phoneHref}
-                    className="text-sm font-black text-charcoal hover:text-primary transition-colors flex items-center gap-2"
-                  >
-                    <Phone size={14} className="text-primary" /> {s.phone}
-                  </a>
-                  <span className="text-xs text-charcoal/60 font-semibold flex items-center gap-2">
-                    <Clock size={13} className="text-charcoal/40" /> {s.hours}
-                  </span>
-                </div>
-
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                    s.address
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-flex items-center justify-center gap-2 bg-cream/60 hover:bg-primary hover:text-white text-charcoal border border-primary/15 hover:border-primary font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer"
-                >
-                  <MapPin size={13} /> View on map
-                </a>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* 5. FAQ TEASER */}
         <section className="pb-20 md:pb-28 max-w-7xl mx-auto px-4 md:px-6">

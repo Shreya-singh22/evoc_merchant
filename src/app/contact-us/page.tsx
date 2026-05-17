@@ -52,10 +52,10 @@ export default function ContactUs() {
             <MessageSquare size={28} />
           </div>
           <h1 className="text-4xl md:text-6xl font-serif font-black text-charcoal tracking-tight">
-            Contact Moonstruck
+            Keep In Touch with Us
           </h1>
           <p className="text-charcoal/60 max-w-2xl text-sm md:text-base leading-relaxed font-medium">
-            We're here to help. Reach out for order issues, warranty claims, or general queries — we respond within 24 hours on business days.
+            We do not sell product from our corporate headquarters in New York City. If you want to visit please reach out to our customer service team first.
           </p>
         </div>
 
@@ -71,12 +71,12 @@ export default function ContactUs() {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] font-extrabold text-charcoal/40 uppercase tracking-wider">Customer Care</span>
-                <a href="tel:+919773550700" className="text-xl font-black text-charcoal hover:text-primary transition-colors leading-snug mt-0.5">
-                  +91 97735 50700
+                <a href="tel:+1880567891505" className="text-xl font-black text-charcoal hover:text-primary transition-colors leading-snug mt-0.5">
+                  +1 (880) 567 891 505
                 </a>
                 <div className="flex items-center gap-1.5 text-xs text-charcoal/60 mt-1 font-semibold">
                   <Clock size={12} className="text-primary" />
-                  Mon–Sat, 10:00 AM – 6:00 PM
+                  Monday - Friday: 8:00 - 20:00
                 </div>
               </div>
             </div>
@@ -88,8 +88,8 @@ export default function ContactUs() {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] font-extrabold text-charcoal/40 uppercase tracking-wider">Email Assistance</span>
-                <a href="mailto:support@moonstruck.co.in" className="text-lg md:text-xl font-black text-charcoal hover:text-primary transition-colors leading-snug mt-0.5">
-                  support@moonstruck.co.in
+                <a href="mailto:electrozsupport@mail.com" className="text-lg md:text-xl font-black text-charcoal hover:text-primary transition-colors leading-snug mt-0.5">
+                  electrozsupport@mail.com
                 </a>
                 <p className="text-xs text-charcoal/60 font-semibold mt-1">
                   Expected reply window: within 24 hours.
@@ -103,11 +103,11 @@ export default function ContactUs() {
                 <MapPin size={22} />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-extrabold text-charcoal/40 uppercase tracking-wider">Factory & Office</span>
+                <span className="text-[10px] font-extrabold text-charcoal/40 uppercase tracking-wider">Corporate HQ</span>
                 <p className="text-base font-black text-charcoal mt-1 leading-relaxed">
-                  Plot No. 259, Block F,<br />
-                  DSIIDC Industrial Area, Sector 3,<br />
-                  Delhi, 110039
+                  Sydney road,<br />
+                  Billboard Street 2219-11C,<br />
+                  New York City, USA
                 </p>
                 <span className="text-[10px] bg-primary/5 text-primary font-bold border border-primary/10 px-3 py-1 rounded-full mt-3 self-start uppercase">
                   Corporate Headquarters
