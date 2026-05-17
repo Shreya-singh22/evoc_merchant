@@ -4,12 +4,15 @@ import React, { createContext, useContext, useState } from "react";
 
 export type CartItem = {
   id: string;
+  productId: string;
+  sku: string;
   name: string;
   price: number;
   originalPrice?: number;
   image: string;
   quantity: number;
   variant?: string;
+  options?: Record<string, string>;
 };
 
 type CartContextType = {

@@ -1,7 +1,7 @@
 import { APIResponse, PaginatedProducts, StorefrontProduct, StorefrontInfo } from "@/types/storefront";
 import { Product } from "@/types/product";
 
-const API_BASE_URL = "http://localhost:5002/api";
+const API_BASE_URL = "https://api.evoclabs.com/api";
 const DEFAULT_SUBDOMAIN = "toys";
 
 /**
@@ -28,10 +28,11 @@ function mapStorefrontProduct(p: StorefrontProduct): Product {
       ? (p.images || []).filter(img => img && typeof img === 'string')
       : ["/placeholder-product.png"],
     rating: 4.5,
-    reviewsCount: Math.floor(Math.random() * 100),
-    dateAdded: p.createdAt || new Date().toISOString(),
+    reviewsCount: (p.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 80) + 20,
+    dateAdded: p.createdAt || "2024-01-01T00:00:00.000Z",
     description: p.description || "",
     sold: "500+",
+    sku: p.sku || `SKU-${p.id.slice(0, 6)}`,
     features: [
       "High-performance motor",
       "Premium build quality",

@@ -2,15 +2,17 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PromoBar from "@/components/PromoBar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import CartDrawer from "@/components/CartDrawer";
-import { Star, ShieldCheck, ShoppingCart, Plus, Minus, Share2, Mail, Truck, Zap, Percent, Play, ChevronDown, ChevronUp, CheckCircle2, Award } from "lucide-react";
+import { Star, ShieldCheck, ShoppingCart, Plus, Minus, Share2, Mail, Truck, Zap, Percent, Play, ChevronDown, ChevronUp, CheckCircle2, Award, Loader2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Product } from "@/types/product";
 import { api } from "@/lib/api";
+import { checkoutApi } from "@/lib/checkout-api";
 
 
 const FAQ_ITEMS = [
@@ -43,9 +45,11 @@ const ImageWithFallback = ({ src, alt, className }: any) => {
 };
 
 export default function ProductDetailPage({ slug }: { slug: string }) {
+  const router = useRouter();
   const [PRODUCT, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [errorNotFound, setErrorNotFound] = useState(false);
 
   const [activeImage, setActiveImage] = useState(0);
@@ -138,13 +142,51 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
     if (!PRODUCT) return;
     addToCart({
       id: `${PRODUCT.id}_${selectedVariants.Wattage}_${selectedVariants.Color}`,
+      productId: PRODUCT.id,
+      sku: PRODUCT.sku,
       name: PRODUCT.name,
-      price: PRODUCT.price,
-      originalPrice: PRODUCT.mrp,
+      price: typeof PRODUCT.price === "string" ? parseFloat(PRODUCT.price) : PRODUCT.price,
+      originalPrice: PRODUCT.mrp ? (typeof PRODUCT.mrp === "string" ? parseFloat(PRODUCT.mrp) : PRODUCT.mrp) : undefined,
       image: PRODUCT.images[0],
       quantity: qty,
       variant: `${selectedVariants.Wattage} / ${selectedVariants.Color}`,
+      options: selectedVariants
     });
+  };
+
+  const handleBuyNow = async () => {
+    if (!PRODUCT) return;
+    setIsCheckingOut(true);
+    try {
+      // Mapping to satisfy evoc_checkout 'CreateSessionSchema'
+      const itemToCheckout = {
+        productId: PRODUCT.id,
+        sku: PRODUCT.sku,
+        name: PRODUCT.name,
+        // CRITICAL: Ensure numbers for price
+        price: typeof PRODUCT.price === "string" ? parseFloat(PRODUCT.price) : PRODUCT.price,
+        compareAtPrice: PRODUCT.mrp ? (typeof PRODUCT.mrp === "string" ? parseFloat(PRODUCT.mrp) : PRODUCT.mrp) : undefined,
+        quantity: qty,
+        image: PRODUCT.images[0],
+        options: selectedVariants
+      };
+
+      const successUrl = `${window.location.origin}/checkout/success`;
+      const cancelUrl = `${window.location.origin}/checkout/failure`;
+
+      const response = await checkoutApi.initSession([itemToCheckout], successUrl, cancelUrl);
+      
+      if (response.success && response.data.sessionId) {
+        router.push(`/checkout?sessionId=${response.data.sessionId}`);
+      } else {
+        throw new Error("Failed to initialize checkout session");
+      }
+    } catch (err: any) {
+      console.error("Checkout Error:", err);
+      alert(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   if (loading) {
@@ -392,10 +434,16 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
                 </div>
 
                 <button
-                  onClick={handleAddToCart}
-                  className="w-full bg-primary hover:bg-primary/95 text-white font-black uppercase tracking-widest py-4 rounded-xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+                  onClick={handleBuyNow}
+                  disabled={isCheckingOut}
+                  className="w-full bg-primary hover:bg-primary/95 text-white font-black uppercase tracking-widest py-4 rounded-xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <ShoppingCart size={18} /> Buy It Now — Limited Time Deal
+                  {isCheckingOut ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    <ShoppingCart size={18} />
+                  )}
+                  {isCheckingOut ? "Initializing..." : "Buy It Now — Limited Time Deal"}
                 </button>
               </div>
 
@@ -680,10 +728,12 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
           <span className="text-lg font-black text-charcoal">₹{PRODUCT.price.toLocaleString()}</span>
         </div>
         <button
-          onClick={handleAddToCart}
-          className="bg-primary text-white font-black uppercase text-xs px-6 py-3 rounded-xl shadow-md"
+          onClick={handleBuyNow}
+          disabled={isCheckingOut}
+          className="bg-primary text-white font-black uppercase text-xs px-6 py-3 rounded-xl shadow-md disabled:opacity-70 flex items-center justify-center gap-2"
         >
-          Buy Now
+          {isCheckingOut ? <Loader2 size={14} className="animate-spin" /> : null}
+          {isCheckingOut ? "Wait..." : "Buy Now"}
         </button>
       </div>
 

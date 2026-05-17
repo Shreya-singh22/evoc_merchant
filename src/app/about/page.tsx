@@ -407,7 +407,7 @@ export default function AboutPage() {
 
                   <div className="flex flex-wrap gap-3 mt-2">
                     <Link
-                      href="/contact"
+                      href="/contact-us"
                       className="inline-flex items-center gap-2 bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base px-7 py-4 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all"
                     >
                       Talk To Our Team

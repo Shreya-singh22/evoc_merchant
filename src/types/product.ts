@@ -18,6 +18,7 @@ export interface Product {
   sold: string;
   description: string;
   name: string;
+  sku: string;
   mrp: number;
   savings: number;
   coins: number;
