@@ -70,12 +70,12 @@ interface ChannelCard {
 const CHANNELS: ChannelCard[] = [
   {
     icon: <Phone size={22} className="text-primary" />,
-    eyebrow: "Customer Support",
-    title: "Call our helpline",
+    eyebrow: "Helpline",
+    title: "Call our team",
     value: "+1 (880) 567 891 505",
     href: "tel:+1880567891505",
-    secondary: "Monday – Friday: 8:00-20:00",
-    badge: "Fastest",
+    secondary: "Monday - Friday: 8:00-20:00",
+    badge: "Support",
   },
   {
     icon: <Mail size={22} className="text-primary" />,
@@ -99,36 +99,18 @@ interface ServiceCenter {
 
 const SERVICE_CENTERS: ServiceCenter[] = [
   {
-    city: "Mumbai",
-    region: "Western HQ",
+    city: "New York City",
+    region: "Corporate HQ",
     address:
-      "Ground Floor, 104 Industrial Area, Phase II, Andheri East, Mumbai 400072",
-    phone: "+91 22 4815 2200",
-    phoneHref: "tel:+912248152200",
-    hours: "Walk-in: Mon–Sat, 10 AM – 6:30 PM",
-  },
-  {
-    city: "Delhi NCR",
-    region: "Northern Hub",
-    address:
-      "B-22, Okhla Industrial Estate, Phase II, New Delhi 110020",
-    phone: "+91 11 4708 1122",
-    phoneHref: "tel:+911147081122",
-    hours: "Walk-in: Mon–Sat, 10 AM – 7 PM",
-  },
-  {
-    city: "Bangalore",
-    region: "Southern Hub",
-    address:
-      "No. 47, 2nd Floor, 100 Feet Road, Indiranagar, Bengaluru 560038",
-    phone: "+91 80 4096 2200",
-    phoneHref: "tel:+918040962200",
-    hours: "Walk-in: Tue–Sun, 11 AM – 7 PM",
+      "Sydney road, Billboard Street 2219-11C",
+    phone: "+1 (880) 567 891 505",
+    phoneHref: "tel:+1880567891505",
+    hours: "Monday - Friday: 8:00-20:00",
   },
 ];
 
 const BUSINESS_HOURS: Array<{ day: string; hours: string; note?: string }> = [
-  { day: "Monday – Friday", hours: "8:00 – 20:00" },
+  { day: "Monday – Friday", hours: "8:00-20:00" },
   { day: "Saturday – Sunday", hours: "Closed" },
 ];
 
@@ -341,13 +323,13 @@ export default function ContactPage() {
                         {form.email || "your email"}
                       </strong>
                       . You&apos;ll hear from a Moonstruck advisor within{" "}
-                      <strong className="text-charcoal">4 working hours</strong>
+                      <strong className="text-charcoal">24 working hours</strong>
                       . For anything urgent, call{" "}
                       <a
-                        href="tel:+918001001122"
+                        href="tel:+1880567891505"
                         className="text-primary font-black underline underline-offset-2"
                       >
-                        1800-200-1122
+                        +1 (880) 567 891 505
                       </a>
                       .
                     </p>
@@ -608,25 +590,26 @@ export default function ContactPage() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/50">
-                      Corporate HQ
+                      Corporate Address
                     </span>
                     <h3 className="text-xl md:text-2xl font-black text-charcoal leading-tight">
-                      Corporate Headquarters
+                      Moonstruck Appliances
                     </h3>
                     <p className="text-sm text-charcoal/70 leading-relaxed mt-1">
-                      Sydney road,
-                      <br />
-                      Billboard Street 2219-11C,
-                      <br />
-                      New York City, USA
+                      Sydney road, Billboard Street 2219-11C
                     </p>
                   </div>
                 </div>
 
-                <div className="border-t border-primary/10 pt-4 flex flex-col gap-3">
-                  <span className="text-xs text-primary font-bold">
-                    * Note: We do not sell product from our corporate headquarters. If you want to visit, please reach out to customer service first.
-                  </span>
+                <div className="border-t border-primary/10 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Sydney road, Billboard Street 2219-11C")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-white text-charcoal border border-charcoal/15 hover:border-primary hover:text-primary font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer hover:shadow-sm"
+                  >
+                    <MapPin size={14} /> Get Directions
+                  </a>
                   <a
                     href="tel:+1880567891505"
                     className="inline-flex items-center justify-center gap-2 bg-charcoal hover:bg-charcoal/90 text-white font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer hover:shadow-sm"
@@ -636,27 +619,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Map placeholder */}
-              <div className="relative bg-charcoal/5 aspect-square md:aspect-[4/3] rounded-2xl border border-primary/10 overflow-hidden group">
-                <iframe
-                  title="Corporate HQ — New York City"
-                  src="https://www.google.com/maps?q=New+York+City,USA&output=embed"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 w-full h-full grayscale-[35%] group-hover:grayscale-0 transition-all"
-                />
-                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm border border-primary/15 rounded-xl px-4 py-3 shadow-md flex items-center gap-3 pointer-events-none">
-                  <MapPin size={18} className="text-primary flex-shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/50">
-                      HQ Pin
-                    </span>
-                    <span className="text-sm font-black text-charcoal leading-tight">
-                      New York City, USA
-                    </span>
-                  </div>
-                </div>
-              </div>
 
               {/* Business hours */}
               <div className="bg-white border border-primary/10 rounded-2xl p-6 md:p-7 shadow-sm flex flex-col gap-4">
@@ -706,7 +668,80 @@ export default function ContactPage() {
           </div>
         </section>
 
+        {/* 4. SERVICE CENTERS */}
+        <section className="py-20 md:py-28 max-w-7xl mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-xl flex flex-col gap-2">
+              <span className="text-primary text-xs md:text-sm font-black tracking-widest uppercase flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Walk-In Hubs
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black text-charcoal tracking-tight">
+                Drop by a service centre.
+              </h2>
+              <p className="text-charcoal/70 text-sm md:text-base leading-relaxed">
+                Genuine spares, certified engineers, and zero appointment-only
+                gatekeeping. Three flagship hubs across India — more rolling out
+                through 2026.
+              </p>
+            </div>
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 bg-white text-charcoal border border-charcoal/15 hover:border-primary hover:text-primary font-bold text-sm px-6 py-3.5 rounded-xl transition-all cursor-pointer hover:shadow-sm self-start md:self-end"
+            >
+              See full network <ArrowRight size={14} />
+            </a>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 animate-fade-in">
+            {SERVICE_CENTERS.map((s) => (
+              <div
+                key={s.city}
+                className="bg-white rounded-2xl border border-primary/10 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 p-6 md:p-7 flex flex-col gap-4 group"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/40">
+                      {s.region}
+                    </span>
+                    <h3 className="text-2xl font-black text-charcoal leading-tight group-hover:text-primary transition-colors">
+                      {s.city}
+                    </h3>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Headphones size={18} className="text-primary" />
+                  </div>
+                </div>
+
+                <p className="text-sm text-charcoal/70 leading-relaxed">
+                  {s.address}
+                </p>
+
+                <div className="border-t border-primary/10 pt-4 flex flex-col gap-2">
+                  <a
+                    href={s.phoneHref}
+                    className="text-sm font-black text-charcoal hover:text-primary transition-colors flex items-center gap-2"
+                  >
+                    <Phone size={14} className="text-primary" /> {s.phone}
+                  </a>
+                  <span className="text-xs text-charcoal/60 font-semibold flex items-center gap-2">
+                    <Clock size={13} className="text-charcoal/40" /> {s.hours}
+                  </span>
+                </div>
+
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    s.address
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center justify-center gap-2 bg-cream/60 hover:bg-primary hover:text-white text-charcoal border border-primary/15 hover:border-primary font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer"
+                >
+                  <MapPin size={13} /> View on map
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* 5. FAQ TEASER */}
         <section className="pb-20 md:pb-28 max-w-7xl mx-auto px-4 md:px-6">

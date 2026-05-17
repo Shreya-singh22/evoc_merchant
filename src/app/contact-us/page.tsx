@@ -76,7 +76,7 @@ export default function ContactUs() {
                 </a>
                 <div className="flex items-center gap-1.5 text-xs text-charcoal/60 mt-1 font-semibold">
                   <Clock size={12} className="text-primary" />
-                  Monday - Friday: 8:00 - 20:00
+                  Monday - Friday: 8:00-20:00
                 </div>
               </div>
             </div>
@@ -103,14 +103,12 @@ export default function ContactUs() {
                 <MapPin size={22} />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-extrabold text-charcoal/40 uppercase tracking-wider">Corporate HQ</span>
+                <span className="text-[10px] font-extrabold text-charcoal/40 uppercase tracking-wider">Corporate Address</span>
                 <p className="text-base font-black text-charcoal mt-1 leading-relaxed">
-                  Sydney road,<br />
-                  Billboard Street 2219-11C,<br />
-                  New York City, USA
+                  Sydney road, Billboard Street 2219-11C
                 </p>
                 <span className="text-[10px] bg-primary/5 text-primary font-bold border border-primary/10 px-3 py-1 rounded-full mt-3 self-start uppercase">
-                  Corporate Headquarters
+                  Corporate Headquarters (NYC)
                 </span>
               </div>
             </div>
