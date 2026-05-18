@@ -70,39 +70,21 @@ interface ChannelCard {
 const CHANNELS: ChannelCard[] = [
   {
     icon: <Phone size={22} className="text-primary" />,
-    eyebrow: "Toll Free",
-    title: "Call our helpline",
-    value: "+91 1800-200-1122",
-    href: "tel:+918001001122",
-    secondary: "Mon to Sat, 9 AM – 7 PM IST",
-    badge: "Fastest",
-  },
-  {
-    icon: <MessageCircle size={22} className="text-forest" />,
-    eyebrow: "WhatsApp",
-    title: "Chat in two taps",
-    value: "+91 98200 01122",
-    href: "https://wa.me/919820001122",
-    secondary: "Replies in under 15 minutes",
-    badge: "24x7 Bot",
+    eyebrow: "Helpline",
+    title: "Call our team",
+    value: "+1 (880) 567 891 505",
+    href: "tel:+1880567891505",
+    secondary: "Monday - Friday: 8:00-20:00",
+    badge: "Support",
   },
   {
     icon: <Mail size={22} className="text-primary" />,
     eyebrow: "Customer Care",
     title: "Email support team",
-    value: "care@moonstruck.co.in",
-    href: "mailto:care@moonstruck.co.in",
-    secondary: "Answered within 4 working hours",
+    value: "electrozsupport@mail.com",
+    href: "mailto:electrozsupport@mail.com",
+    secondary: "Answered within 24 working hours",
     badge: "Verified",
-  },
-  {
-    icon: <Handshake size={22} className="text-gold" />,
-    eyebrow: "Business",
-    title: "Bulk & partnerships",
-    value: "sales@moonstruck.co.in",
-    href: "mailto:sales@moonstruck.co.in",
-    secondary: "B2B, distributor & gifting enquiries",
-    badge: "B2B",
   },
 ];
 
@@ -117,39 +99,19 @@ interface ServiceCenter {
 
 const SERVICE_CENTERS: ServiceCenter[] = [
   {
-    city: "Mumbai",
-    region: "Western HQ",
+    city: "New York City",
+    region: "Corporate HQ",
     address:
-      "Ground Floor, 104 Industrial Area, Phase II, Andheri East, Mumbai 400072",
-    phone: "+91 22 4815 2200",
-    phoneHref: "tel:+912248152200",
-    hours: "Walk-in: Mon–Sat, 10 AM – 6:30 PM",
-  },
-  {
-    city: "Delhi NCR",
-    region: "Northern Hub",
-    address:
-      "B-22, Okhla Industrial Estate, Phase II, New Delhi 110020",
-    phone: "+91 11 4708 1122",
-    phoneHref: "tel:+911147081122",
-    hours: "Walk-in: Mon–Sat, 10 AM – 7 PM",
-  },
-  {
-    city: "Bangalore",
-    region: "Southern Hub",
-    address:
-      "No. 47, 2nd Floor, 100 Feet Road, Indiranagar, Bengaluru 560038",
-    phone: "+91 80 4096 2200",
-    phoneHref: "tel:+918040962200",
-    hours: "Walk-in: Tue–Sun, 11 AM – 7 PM",
+      "Sydney road, Billboard Street 2219-11C",
+    phone: "+1 (880) 567 891 505",
+    phoneHref: "tel:+1880567891505",
+    hours: "Monday - Friday: 8:00-20:00",
   },
 ];
 
 const BUSINESS_HOURS: Array<{ day: string; hours: string; note?: string }> = [
-  { day: "Monday – Friday", hours: "9:00 AM – 7:00 PM" },
-  { day: "Saturday", hours: "10:00 AM – 5:00 PM" },
-  { day: "Sunday", hours: "Closed", note: "WhatsApp bot remains active" },
-  { day: "National Holidays", hours: "Closed" },
+  { day: "Monday – Friday", hours: "8:00-20:00" },
+  { day: "Saturday – Sunday", hours: "Closed" },
 ];
 
 const INITIAL_FORM: ContactFormState = {
@@ -246,22 +208,18 @@ export default function ContactPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Get In Touch
               </span>
               <h1 className="text-4xl md:text-6xl font-black text-charcoal tracking-tight leading-[1.05]">
-                We&apos;re here to help, every step of the way.
+                Keep In Touch with Us
               </h1>
               <p className="text-charcoal/70 text-base md:text-lg leading-relaxed max-w-2xl">
-                Whether it&apos;s a question before you buy, a service visit for your
-                Moonstruck appliance, or a partnership idea — talk to a real
-                person. Most queries are answered within{" "}
-                <strong className="text-charcoal">4 working hours</strong>, and
-                no call gets passed around more than twice. That&apos;s our promise.
+                We do not sell product from our corporate headquarters in New York City. If you want to visit please reach out to our customer service team first.
               </p>
 
               <div className="flex flex-wrap items-center gap-3 mt-2">
                 <a
-                  href="tel:+918001001122"
+                  href="tel:+1880567891505"
                   className="inline-flex items-center gap-2 bg-primary hover:bg-primary/95 text-white font-black text-sm px-6 py-3.5 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-md"
                 >
-                  <Phone size={16} /> Call 1800-200-1122
+                  <Phone size={16} /> Call +1 (880) 567 891 505
                 </a>
                 <a
                   href="#contact-form"
@@ -269,9 +227,6 @@ export default function ContactPage() {
                 >
                   Write to us <ArrowRight size={16} />
                 </a>
-                <span className="inline-flex items-center gap-2 text-xs font-bold text-forest bg-forest/10 border border-forest/20 px-3 py-2 rounded-full">
-                  <ShieldCheck size={14} /> ISO 9001 certified service
-                </span>
               </div>
             </div>
           </div>
@@ -368,13 +323,13 @@ export default function ContactPage() {
                         {form.email || "your email"}
                       </strong>
                       . You&apos;ll hear from a Moonstruck advisor within{" "}
-                      <strong className="text-charcoal">4 working hours</strong>
+                      <strong className="text-charcoal">24 working hours</strong>
                       . For anything urgent, call{" "}
                       <a
-                        href="tel:+918001001122"
+                        href="tel:+1880567891505"
                         className="text-primary font-black underline underline-offset-2"
                       >
-                        1800-200-1122
+                        +1 (880) 567 891 505
                       </a>
                       .
                     </p>
@@ -635,24 +590,20 @@ export default function ContactPage() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/50">
-                      Registered Office
+                      Corporate Address
                     </span>
                     <h3 className="text-xl md:text-2xl font-black text-charcoal leading-tight">
-                      Moonstruck Appliances Pvt. Ltd.
+                      Moonstruck Appliances
                     </h3>
                     <p className="text-sm text-charcoal/70 leading-relaxed mt-1">
-                      104, Industrial Area Phase II,
-                      <br />
-                      Andheri East, Mumbai,
-                      <br />
-                      Maharashtra 400072, India
+                      Sydney road, Billboard Street 2219-11C
                     </p>
                   </div>
                 </div>
 
                 <div className="border-t border-primary/10 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <a
-                    href="https://www.google.com/maps/dir/?api=1&destination=Andheri+East+Mumbai+400072"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Sydney road, Billboard Street 2219-11C")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 bg-white text-charcoal border border-charcoal/15 hover:border-primary hover:text-primary font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer hover:shadow-sm"
@@ -660,35 +611,14 @@ export default function ContactPage() {
                     <MapPin size={14} /> Get Directions
                   </a>
                   <a
-                    href="tel:+912248152200"
+                    href="tel:+1880567891505"
                     className="inline-flex items-center justify-center gap-2 bg-charcoal hover:bg-charcoal/90 text-white font-bold text-xs px-4 py-3 rounded-xl transition-all cursor-pointer hover:shadow-sm"
                   >
-                    <Phone size={14} /> +91 22 4815 2200
+                    <Phone size={14} /> +1 (880) 567 891 505
                   </a>
                 </div>
               </div>
 
-              {/* Map placeholder */}
-              <div className="relative bg-charcoal/5 aspect-square md:aspect-[4/3] rounded-2xl border border-primary/10 overflow-hidden group">
-                <iframe
-                  title="Moonstruck Appliances HQ — Mumbai"
-                  src="https://www.google.com/maps?q=Andheri+East,Mumbai,Maharashtra+400072&output=embed"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 w-full h-full grayscale-[35%] group-hover:grayscale-0 transition-all"
-                />
-                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm border border-primary/15 rounded-xl px-4 py-3 shadow-md flex items-center gap-3 pointer-events-none">
-                  <MapPin size={18} className="text-primary flex-shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-black tracking-widest uppercase text-charcoal/50">
-                      HQ Pin
-                    </span>
-                    <span className="text-sm font-black text-charcoal leading-tight">
-                      Mumbai, Maharashtra
-                    </span>
-                  </div>
-                </div>
-              </div>
 
               {/* Business hours */}
               <div className="bg-white border border-primary/10 rounded-2xl p-6 md:p-7 shadow-sm flex flex-col gap-4">

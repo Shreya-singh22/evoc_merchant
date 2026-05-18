@@ -316,7 +316,7 @@ export default function CheckoutClient() {
               {step === "IDENTIFY" && (
                 <div className="animate-fade-in flex flex-col gap-6">
                   <div>
-                    <h2 className="text-2xl font-serif font-bold text-charcoal">Welcome Back</h2>
+                    <h2 className="text-2xl font-serif font-bold text-charcoal">Just one last step ... </h2>
                     <p className="text-sm text-charcoal/60 mt-1">Enter your phone number to proceed with your order.</p>
                   </div>
                   <form onSubmit={handleSendOtp} className="space-y-4">
@@ -406,7 +406,7 @@ export default function CheckoutClient() {
                       <p className="text-sm text-charcoal/60 mt-1">Where should we deliver your premium appliance?</p>
                     </div>
                     {session?.user?.addresses?.length > 0 && !showNewAddressForm && (
-                      <button 
+                      <button
                         onClick={() => setShowNewAddressForm(true)}
                         className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-primary hover:text-primary/70 transition-colors"
                       >
@@ -423,17 +423,16 @@ export default function CheckoutClient() {
                             key={addr.id}
                             type="button"
                             onClick={() => setSelectedAddressId(addr.id)}
-                            className={`flex flex-col p-4 rounded-2xl border-2 text-left transition-all ${
-                              selectedAddressId === addr.id 
-                                ? "border-primary bg-primary/5 shadow-md" 
-                                : "border-primary/10 hover:border-primary/30"
-                            }`}
+                            className={`flex flex-col p-4 rounded-2xl border-2 text-left transition-all ${selectedAddressId === addr.id
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "border-primary/10 hover:border-primary/30"
+                              }`}
                           >
                             <div className="flex items-center justify-between mb-2 w-full">
                               <div className="flex items-center gap-2">
-                                {addr.type === "HOME" ? <Home size={16} className="text-primary" /> : 
-                                 addr.type === "WORK" ? <Briefcase size={16} className="text-primary" /> : 
-                                 <MapPin size={16} className="text-primary" />}
+                                {addr.type === "HOME" ? <Home size={16} className="text-primary" /> :
+                                  addr.type === "WORK" ? <Briefcase size={16} className="text-primary" /> :
+                                    <MapPin size={16} className="text-primary" />}
                                 <span className="text-[10px] font-black uppercase tracking-widest text-primary">
                                   {addr.type}
                                 </span>
@@ -449,7 +448,7 @@ export default function CheckoutClient() {
                           </button>
                         ))}
                       </div>
-                      
+
                       <div className="pt-4 flex flex-col gap-4">
                         <div className="flex flex-col gap-1.5">
                           <label className="text-xs font-bold uppercase tracking-wider text-charcoal/60">Email Address</label>
@@ -461,9 +460,9 @@ export default function CheckoutClient() {
                             className="w-full px-4 py-3 bg-cream/30 border border-primary/10 rounded-xl text-sm focus:outline-none focus:border-primary transition-all"
                           />
                         </div>
-                        <button 
-                          onClick={handleUpdateProfile} 
-                          disabled={isLoading || !selectedAddressId} 
+                        <button
+                          onClick={handleUpdateProfile}
+                          disabled={isLoading || !selectedAddressId}
                           className="w-full bg-primary text-white font-black py-4 rounded-xl shadow-md flex items-center justify-center gap-2 disabled:opacity-70"
                         >
                           {isLoading ? <Loader2 className="animate-spin" /> : "Deliver to Selected Address"}
@@ -473,7 +472,7 @@ export default function CheckoutClient() {
                   ) : (
                     <form onSubmit={handleUpdateProfile} className="space-y-6" noValidate>
                       {session?.user?.addresses?.length > 0 && (
-                        <button 
+                        <button
                           type="button"
                           onClick={() => setShowNewAddressForm(false)}
                           className="text-xs font-bold text-primary underline mb-2 flex items-center gap-1"
