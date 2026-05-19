@@ -117,7 +117,7 @@ export default function Header() {
             All Products
           </Link>
           <Link
-            href="/about"
+            href="/about-us"
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             About Us
@@ -129,7 +129,7 @@ export default function Header() {
             Warranty & Service
           </Link>
           <Link
-            href="/contact"
+            href="/contact-us"
             className="text-sm font-semibold text-charcoal/80 hover:text-primary tracking-wide transition-colors"
           >
             Contact

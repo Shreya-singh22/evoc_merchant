@@ -1,14 +1,52 @@
 "use client";
 
-import React from "react";
-import { X, Trash2, ShoppingBag, MoveRight } from "lucide-react";
+import React, { useState } from "react";
+import { X, Trash2, ShoppingBag, MoveRight, Loader2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { checkoutApi } from "@/lib/checkout-api";
 
 export default function CartDrawer() {
   const { cartItems, removeFromCart, updateQuantity, isCartOpen, setIsCartOpen } = useCart();
+  const router = useRouter();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) return;
+    setIsCheckingOut(true);
+    try {
+      const itemsToCheckout = cartItems.map(item => ({
+        productId: item.productId,
+        sku: item.sku,
+        name: item.name,
+        price: item.price,
+        compareAtPrice: item.originalPrice,
+        quantity: item.quantity,
+        image: item.image,
+        options: item.options,
+        variantName: item.variant
+      }));
+
+      const successUrl = `${window.location.origin}/checkout/success`;
+      const cancelUrl = `${window.location.origin}/checkout/failure`;
+
+      const response = await checkoutApi.initSession(itemsToCheckout, successUrl, cancelUrl);
+      
+      if (response.success && response.data.sessionId) {
+        setIsCartOpen(false);
+        router.push(`/checkout?sessionId=${response.data.sessionId}`);
+      } else {
+        throw new Error("Failed to initialize checkout session");
+      }
+    } catch (err: any) {
+      console.error("Checkout Error:", err);
+      alert(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   if (!isCartOpen) return null;
 
@@ -135,13 +173,22 @@ export default function CartDrawer() {
             <div className="bg-primary/5 border border-primary/10 rounded-xl p-3 text-[11px] text-primary font-bold text-center select-none">
               Free Pan-India Delivery and Installation Applied
             </div>
-            <Link
-              href="/checkout"
-              onClick={() => setIsCartOpen(false)}
-              className="w-full bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 select-none shadow-md"
+            <button
+              onClick={handleCheckout}
+              disabled={isCheckingOut}
+              className="w-full bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 select-none shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Secure Checkout <MoveRight size={18} />
-            </Link>
+              {isCheckingOut ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  Secure Checkout <MoveRight size={18} />
+                </>
+              )}
+            </button>
           </div>
         )}
       </div>

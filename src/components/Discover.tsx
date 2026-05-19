@@ -19,6 +19,7 @@ const TAB_CONFIG: Array<{ label: TabKey; flag: FlagKey; badge: string }> = [
 
 interface DisplayProduct {
   id: string;
+  sku: string;
   name: string;
   description: string;
   price: number;
@@ -46,6 +47,7 @@ function toDisplayProduct(p: StorefrontProduct, badge: string): DisplayProduct {
 
   return {
     id: p.id,
+    sku: p.sku || `SKU-${p.id.slice(0, 6)}`,
     name: p.name,
     description: p.description || "",
     price,
@@ -286,6 +288,8 @@ export default function Discover() {
                     onClick={() =>
                       addToCart({
                         id: currentVariant ? `${p.id}_${currentVariant}` : p.id,
+                        productId: p.id,
+                        sku: p.sku,
                         name: p.name,
                         price: p.price,
                         originalPrice: p.mrp,

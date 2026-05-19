@@ -57,8 +57,8 @@ export default function Footer() {
             Information
           </h3>
           <nav className="flex flex-col gap-3">
-            <Link href="/about" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</Link>
-            <Link href="/contact" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</Link>
+            <Link href="/about-us" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">About Us</Link>
+            <Link href="/contact-us" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Contact Us</Link>
             <Link href="/blog" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Expert Blog</Link>
             <Link href="/track-order" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Track Your Order</Link>
             <Link href="/warranty" className="text-sm text-white/70 hover:text-primary hover:pl-1.5 transition-all font-semibold">Warranty Registration</Link>
@@ -82,7 +82,7 @@ export default function Footer() {
       {/* Bottom Legal & Payment Strip */}
       <div className="border-t border-white/5 pt-6 mt-4 max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 select-none">
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-2 md:gap-3 text-xs md:text-sm text-white/40 font-semibold tracking-wide text-center">
-          <span>&copy; {new Date().getFullYear()} Moonstruck Appliances. All Rights Reserved.</span>
+          <span suppressHydrationWarning>&copy; {new Date().getFullYear()} Moonstruck Appliances. All Rights Reserved.</span>
           <span className="hidden md:inline">•</span>
           <a
             href="https://evoclabs.com"

@@ -611,6 +611,8 @@ export default function ProductsClient() {
                               e.stopPropagation();
                               addToCart({
                                 id: `${product?.id || ""}_default`,
+                                productId: product?.id || "",
+                                sku: product?.sku || "",
                                 name: product?.title || "",
                                 price: productPrice,
                                 originalPrice: productCompareAt,

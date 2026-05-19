@@ -416,7 +416,7 @@ export default function TrackOrderPage() {
 
             <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3 relative z-10">
               <Link
-                href="/contact"
+                href="/contact-us"
                 className="text-center bg-primary hover:bg-primary/95 text-white font-black text-sm md:text-base px-8 py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-md"
               >
                 Contact Support

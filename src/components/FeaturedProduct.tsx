@@ -155,6 +155,8 @@ export default function FeaturedProduct() {
               onClick={() =>
                 addToCart({
                   id: product.id,
+                  productId: product.id,
+                  sku: product.sku || `SKU-${product.id.slice(0, 6)}`,
                   name: product.name,
                   price,
                   originalPrice: compareAt || price,
