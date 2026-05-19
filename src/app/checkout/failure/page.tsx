@@ -1,5 +1,10 @@
+import { Suspense } from "react";
 import FailureClient from "./FailureClient";
 
 export default function FailurePage() {
-  return <FailureClient />;
+  return (
+    <Suspense fallback={null}>
+      <FailureClient />
+    </Suspense>
+  );
 }
