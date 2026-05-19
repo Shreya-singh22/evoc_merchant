@@ -1,5 +1,5 @@
 
-const CHECKOUT_API_BASE_URL = "http://localhost:3000/api/v1";
+const CHECKOUT_API_BASE_URL = "https://api.evoclabs.com/api/v1";
 const STORE_ID = "store_123";
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
