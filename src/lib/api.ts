@@ -1,7 +1,7 @@
 import { APIResponse, PaginatedProducts, StorefrontProduct, StorefrontInfo } from "@/types/storefront";
 import { Product } from "@/types/product";
 
-const API_BASE_URL = "http://localhost:5002/api";
+const API_BASE_URL = "https://api.evoclabs.com/api";
 const DEFAULT_SUBDOMAIN = "toys";
 
 /**
