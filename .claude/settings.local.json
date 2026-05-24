@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(dir /a)",
-      "Bash(findstr -i env)"
+      "Bash(findstr -i env)",
+      "WebSearch",
+      "Bash(mkdir -p /home/stargazer/Desktop/Internships/evoc_merchant/components/checkout)",
+      "WebFetch(domain:developer.payu.in)",
+      "WebFetch(domain:payu.in)",
+      "WebFetch(domain:devguide.payu.in)",
+      "WebFetch(domain:docs.payu.in)",
+      "Bash(npx prisma *)",
+      "Bash(npx tsc *)"
     ]
   }
 }

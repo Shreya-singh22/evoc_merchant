@@ -81,8 +81,7 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
           setErrorNotFound(true);
         }
       })
-      .catch((err) => {
-        console.error(`Failed to load product ${slug}:`, err);
+      .catch(() => {
         if (!cancelled) setErrorNotFound(true);
       })
       .finally(() => {
@@ -156,37 +155,19 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
 
   const handleBuyNow = async () => {
     if (!PRODUCT) return;
-    setIsCheckingOut(true);
-    try {
-      // Mapping to satisfy evoc_checkout 'CreateSessionSchema'
-      const itemToCheckout = {
-        productId: PRODUCT.id,
-        sku: PRODUCT.sku,
-        name: PRODUCT.name,
-        // CRITICAL: Ensure numbers for price
-        price: typeof PRODUCT.price === "string" ? parseFloat(PRODUCT.price) : PRODUCT.price,
-        compareAtPrice: PRODUCT.mrp ? (typeof PRODUCT.mrp === "string" ? parseFloat(PRODUCT.mrp) : PRODUCT.mrp) : undefined,
-        quantity: qty,
-        image: PRODUCT.images[0],
-        options: selectedVariants
-      };
-
-      const successUrl = `${window.location.origin}/checkout/success`;
-      const cancelUrl = `${window.location.origin}/checkout/failure`;
-
-      const response = await checkoutApi.initSession([itemToCheckout], successUrl, cancelUrl);
-      
-      if (response.success && response.data.sessionId) {
-        router.push(`/checkout?sessionId=${response.data.sessionId}`);
-      } else {
-        throw new Error("Failed to initialize checkout session");
-      }
-    } catch (err: any) {
-      console.error("Checkout Error:", err);
-      alert(err.message || "Something went wrong. Please try again.");
-    } finally {
-      setIsCheckingOut(false);
-    }
+    addToCart({
+      id: `${PRODUCT.id}_${selectedVariants.Wattage}_${selectedVariants.Color}`,
+      productId: PRODUCT.id,
+      sku: PRODUCT.sku,
+      name: PRODUCT.name,
+      price: typeof PRODUCT.price === "string" ? parseFloat(PRODUCT.price) : PRODUCT.price,
+      originalPrice: PRODUCT.mrp ? (typeof PRODUCT.mrp === "string" ? parseFloat(PRODUCT.mrp) : PRODUCT.mrp) : undefined,
+      image: PRODUCT.images[0],
+      quantity: qty,
+      variant: `${selectedVariants.Wattage} / ${selectedVariants.Color}`,
+      options: selectedVariants
+    });
+    router.push("/checkout");
   };
 
   if (loading) {

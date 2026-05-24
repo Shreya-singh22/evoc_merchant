@@ -51,7 +51,7 @@ export default function SuccessClient() {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-serif font-black text-charcoal mb-4">Order Confirmed!</h1>
+          <h1 className="text-4xl md:text-5xl font-black text-charcoal mb-4">Order Confirmed!</h1>
           <p className="text-charcoal/60 text-base md:text-lg mb-8 max-w-md">
             Thank you for choosing Moonstruck. Your premium home appliance is being prepared for dispatch.
           </p>

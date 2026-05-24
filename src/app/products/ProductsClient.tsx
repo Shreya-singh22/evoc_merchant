@@ -35,7 +35,7 @@ export default function ProductsClient() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    api.getCategories().then(setCategories).catch(console.error);
+    api.getCategories().then(setCategories).catch(() => {});
   }, []);
 
   // --- State Driven Filters from URL ---
@@ -75,8 +75,8 @@ export default function ProductsClient() {
     if (stored) {
       try {
         setWishlist(JSON.parse(stored));
-      } catch (e) {
-        console.error(e);
+      } catch {
+        // ignore wishlist parse errors
       }
     }
   }, []);
@@ -89,8 +89,7 @@ export default function ProductsClient() {
       .then((data) => {
         if (!cancelled) setProducts(data || []);
       })
-      .catch((err) => {
-        console.error("Failed to load products:", err);
+      .catch(() => {
         if (!cancelled) setProducts([]);
       })
       .finally(() => {
