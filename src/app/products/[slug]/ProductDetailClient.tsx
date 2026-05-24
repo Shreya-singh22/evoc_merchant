@@ -81,8 +81,7 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
           setErrorNotFound(true);
         }
       })
-      .catch((err) => {
-        console.error(`Failed to load product ${slug}:`, err);
+      .catch(() => {
         if (!cancelled) setErrorNotFound(true);
       })
       .finally(() => {
@@ -168,7 +167,7 @@ export default function ProductDetailPage({ slug }: { slug: string }) {
       variant: `${selectedVariants.Wattage} / ${selectedVariants.Color}`,
       options: selectedVariants
     });
-    router.push("/checkout-mock");
+    router.push("/checkout");
   };
 
   if (loading) {

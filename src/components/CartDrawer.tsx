@@ -14,7 +14,7 @@ export default function CartDrawer() {
   const handleCheckout = async () => {
     if (cartItems.length === 0) return;
     setIsCartOpen(false);
-    router.push("/checkout-mock");
+    router.push("/checkout");
   };
 
   if (!isCartOpen) return null;

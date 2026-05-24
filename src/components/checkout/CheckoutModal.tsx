@@ -151,7 +151,7 @@ export default function CheckoutModal({
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
               <CheckCircle2 className="w-10 h-10 text-green-600" />
             </div>
-            <h3 className="text-2xl font-serif font-bold text-charcoal mb-2">
+            <h3 className="text-2xl font-bold text-charcoal mb-2">
               Order Confirmed!
             </h3>
             <p className="text-sm text-charcoal/70 mb-4">
@@ -190,7 +190,7 @@ export default function CheckoutModal({
         <div className="flex items-center justify-between p-5 border-b border-primary/10 bg-cream/40 flex-shrink-0">
           <div className="flex items-center gap-2">
             <ShoppingBag size={20} className="text-primary" />
-            <h2 className="text-lg font-serif font-bold text-charcoal tracking-tight">
+            <h2 className="text-lg font-bold text-charcoal tracking-tight">
               {step === "customer" ? "Checkout" : "Payment"}
             </h2>
           </div>

@@ -3,17 +3,18 @@
 import { prisma } from "@/lib/db";
 import { z } from "zod";
 
+const MAX_OTP_PER_HOUR = 5;
+const RESEND_TIMER_SECONDS = 120; // 2 minutes
+
 const sendOtpSchema = z.object({
-  phone: z.string().min(10).max(15),
+  phone: z.string().regex(/^[6789]\d{9}$/, "Invalid Indian phone number"),
 });
 
-const TWO_FACTOR_API_KEY = process.env.TWO_FACTOR_API_KEY;
-const BASE_URL = "https://2factor.in/API/V1";
-
-interface TwoFactorResponse {
-  Status: "Success" | "Error";
-  Details: string;
-}
+const verifyOtpSchema = z.object({
+  phone: z.string().regex(/^[6789]\d{9}$/, "Invalid Indian phone number"),
+  code: z.string().length(4),
+  sessionId: z.string().optional(),
+});
 
 function sanitizePhone(phone: string): string {
   const digits = phone.replace(/\D/g, "");
@@ -31,32 +32,42 @@ export async function sendOtp(data: unknown) {
   const formattedPhone = sanitizePhone(phone);
   const cleanPhone = phone.replace(/\D/g, "");
 
-  if (!TWO_FACTOR_API_KEY) {
-    console.error("[2FACTOR] API key not configured");
+  if (!process.env.TWO_FACTOR_API_KEY) {
     return { success: false, message: "OTP service not configured" };
   }
 
-  // Delete existing unverified OTPs
+  // Check rate limit: max 5 OTPs per hour
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+  const recentOtps = await prisma.otpVerification.count({
+    where: {
+      phone: cleanPhone,
+      createdAt: { gte: oneHourAgo },
+    },
+  });
+
+  if (recentOtps >= MAX_OTP_PER_HOUR) {
+    return {
+      success: false,
+      message: "Too many OTP requests. Please try again after an hour.",
+    };
+  }
+
+  // Delete existing unverified OTPs for this phone
   await prisma.otpVerification.deleteMany({
     where: { phone: cleanPhone, verified: false },
   });
 
   try {
     // 2Factor API format: /SMS/+919999999999/AUTOGEN3/OTP1
-    const url = `${BASE_URL}/${TWO_FACTOR_API_KEY}/SMS/${encodeURIComponent(formattedPhone)}/AUTOGEN3/OTP1`;
-
-    console.log("[2FACTOR] Sending OTP...");
+    const url = `https://2factor.in/API/V1/${process.env.TWO_FACTOR_API_KEY}/SMS/${encodeURIComponent(formattedPhone)}/AUTOGEN3/OTP1`;
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       cache: "no-store",
     });
 
-    const result: TwoFactorResponse = await response.json();
-    console.log("[2FACTOR] Response:", result);
+    const result = await response.json();
 
     if (result.Status !== "Success") {
       return {
@@ -80,9 +91,9 @@ export async function sendOtp(data: unknown) {
       success: true,
       message: "OTP sent successfully",
       sessionId,
+      resendTimer: RESEND_TIMER_SECONDS,
     };
   } catch (error: any) {
-    console.error("[2FACTOR] Error:", error);
     return {
       success: false,
       message: error.message || "Failed to send OTP",
@@ -90,23 +101,20 @@ export async function sendOtp(data: unknown) {
   }
 }
 
-const verifyOtpSchema = z.object({
-  phone: z.string().min(10).max(15),
-  code: z.string().length(4),
-});
-
 export async function verifyOtp(data: unknown) {
-  const { phone, code } = verifyOtpSchema.parse(data);
+  const { phone, code, sessionId } = verifyOtpSchema.parse(data);
   const cleanPhone = phone.replace(/\D/g, "");
 
-  if (!TWO_FACTOR_API_KEY) {
-    console.error("[2FACTOR] API key not configured");
+  if (!process.env.TWO_FACTOR_API_KEY) {
     return { success: false, message: "OTP service not configured" };
   }
 
   // Find the latest unverified OTP
   const otp = await prisma.otpVerification.findFirst({
-    where: { phone: cleanPhone, verified: false },
+    where: {
+      phone: cleanPhone,
+      verified: false,
+    },
     orderBy: { createdAt: "desc" },
   });
 
@@ -119,23 +127,17 @@ export async function verifyOtp(data: unknown) {
   }
 
   try {
-    // 2Factor API format for verify: /SMS/VERIFY3/919999999999/1234
-    // Phone should be 91XXXXXXXXXX (12 digits, no +)
-    const phoneForVerify = cleanPhone.length === 12 ? cleanPhone : `91${cleanPhone}`;
-    const url = `${BASE_URL}/${TWO_FACTOR_API_KEY}/SMS/VERIFY3/${phoneForVerify}/${code}`;
-
-    console.log("[2FACTOR] Verifying OTP...");
+    // 2Factor API format for verify: /SMS/VERIFY3/{phone}/{otp_code}
+    const phoneForVerify = `91${cleanPhone}`;
+    const url = `https://2factor.in/API/V1/${process.env.TWO_FACTOR_API_KEY}/SMS/VERIFY3/${phoneForVerify}/${code}`;
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       cache: "no-store",
     });
 
-    const result: TwoFactorResponse = await response.json();
-    console.log("[2FACTOR] Verify Response:", result);
+    const result = await response.json();
 
     if (result.Status !== "Success") {
       return { success: false, message: result.Details || "Invalid OTP" };
@@ -166,7 +168,6 @@ export async function verifyOtp(data: unknown) {
       data: { userId: user.id, phone: user.phone },
     };
   } catch (error: any) {
-    console.error("[2FACTOR] Verify Error:", error);
     return { success: false, message: error.message || "Failed to verify OTP" };
   }
 }

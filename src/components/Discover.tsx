@@ -88,9 +88,8 @@ export default function Discover() {
         const mapped = products.map((p) => toDisplayProduct(p, cfg.badge));
         setProductsByTab((prev) => ({ ...prev, [activeTab]: mapped }));
       })
-      .catch((err) => {
+      .catch(() => {
         if (cancelled) return;
-        console.error("Discover fetch failed:", err);
         setErrorTab(activeTab);
       })
       .finally(() => {

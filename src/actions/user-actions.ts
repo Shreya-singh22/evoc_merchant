@@ -27,6 +27,7 @@ export async function getOrCreateUser(data: unknown) {
   });
 
   if (!user) {
+    // Create new user
     const createdUser = await prisma.user.create({
       data: {
         phone: validated.phone,
@@ -50,16 +51,35 @@ export async function getOrCreateUser(data: unknown) {
     };
   }
 
+  // User exists - update with latest data if provided
+  const updatedUser = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      email: validated.email || user.email,
+      firstName: validated.firstName || user.firstName,
+      lastName: validated.lastName || user.lastName,
+    },
+    include: {
+      addresses: {
+        orderBy: { isDefault: "desc" },
+      },
+      orders: {
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+    },
+  });
+
   return {
     success: true,
     data: {
-      id: user.id,
-      phone: user.phone,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      isVerified: user.isVerified,
-      addresses: user.addresses.map((a) => ({
+      id: updatedUser.id,
+      phone: updatedUser.phone,
+      email: updatedUser.email,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      isVerified: updatedUser.isVerified,
+      addresses: updatedUser.addresses.map((a) => ({
         id: a.id,
         type: a.type,
         flatHouse: a.flatHouse,
@@ -70,7 +90,7 @@ export async function getOrCreateUser(data: unknown) {
         phone: a.phone,
         isDefault: a.isDefault,
       })),
-      orders: user.orders.map((o) => ({
+      orders: updatedUser.orders.map((o) => ({
         id: o.id,
         items: o.items,
         totalAmount: o.totalAmount,

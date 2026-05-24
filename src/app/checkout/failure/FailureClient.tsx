@@ -33,7 +33,7 @@ export default function FailureClient() {
             <AlertCircle size={40} />
           </div>
           
-          <h1 className="text-3xl font-serif font-black text-charcoal mb-4">Payment Failed</h1>
+          <h1 className="text-3xl font-black text-charcoal mb-4">Payment Failed</h1>
           <p className="text-charcoal/60 text-base mb-8 max-w-xs">
             {displayMessage}
           </p>

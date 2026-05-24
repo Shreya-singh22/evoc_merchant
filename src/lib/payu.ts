@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 const PAYU_SALT = process.env.PAYU_SALT || "";
-const PAYU_KEY = process.env.PAYU_KEY || process.env.NEXT_PUBLIC_PAYU_KEY || "";
+const PAYU_KEY = process.env.PAYU_KEY || "";
 
 export interface PayUHashData {
   key: string;

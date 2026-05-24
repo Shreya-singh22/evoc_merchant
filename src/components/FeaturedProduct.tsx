@@ -22,8 +22,7 @@ export default function FeaturedProduct() {
         if (cancelled) return;
         setProduct(products[0] || null);
       })
-      .catch((err) => {
-        console.error("Featured product fetch failed:", err);
+      .catch(() => {
         if (!cancelled) setProduct(null);
       })
       .finally(() => {

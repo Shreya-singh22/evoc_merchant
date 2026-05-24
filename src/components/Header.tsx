@@ -15,7 +15,7 @@ export default function Header() {
   const { cartItems, setIsCartOpen } = useCart();
 
   useEffect(() => {
-    api.getCategories().then(setCategories).catch(console.error);
+    api.getCategories().then(setCategories).catch(() => {});
   }, []);
 
   

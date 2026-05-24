@@ -10,7 +10,7 @@ export default function CategoryShowcase() {
   const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
-    api.getCategories().then(setCategories).catch(console.error);
+    api.getCategories().then(setCategories).catch(() => {});
   }, []);
 
   const showcaseItems = (categories || []).slice(0, 6).map((cat, i) => ({

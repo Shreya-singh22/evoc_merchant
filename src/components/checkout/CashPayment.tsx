@@ -1,8 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import { CheckCircle2, Truck, Loader2 } from "lucide-react";
-import { createOrder } from "@/actions";
+import { Loader2 } from "lucide-react";
+import { createCodOrder } from "@/actions";
+
+interface ShippingAddress {
+  id: string;
+  type: string;
+  flatHouse: string;
+  areaStreet: string;
+  city: string;
+  state: string;
+  pincode: string;
+  phone?: string | null;
+  isDefault: boolean;
+}
 
 interface CashPaymentProps {
   onSuccess: (orderId: string) => void;
@@ -11,9 +23,11 @@ interface CashPaymentProps {
   customerFirstName?: string;
   customerLastName?: string;
   customerEmail?: string;
+  customerPhone?: string;
   items: any[];
   totalAmount: number;
   codFee?: number;
+  shippingAddress?: ShippingAddress | null;
 }
 
 export default function CashPayment({
@@ -23,9 +37,11 @@ export default function CashPayment({
   customerFirstName,
   customerLastName,
   customerEmail,
+  customerPhone,
   items,
   totalAmount,
   codFee = 0,
+  shippingAddress,
 }: CashPaymentProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,14 +51,23 @@ export default function CashPayment({
     setError(null);
 
     try {
-      const result = await createOrder({
+      const result = await createCodOrder({
         userId,
         items,
         totalAmount: totalAmount + codFee,
-        paymentMethod: "COD",
         firstName: customerFirstName,
         lastName: customerLastName,
         email: customerEmail,
+        customerPhone,
+        shippingAddress: shippingAddress
+          ? {
+              flatHouse: shippingAddress.flatHouse,
+              areaStreet: shippingAddress.areaStreet,
+              city: shippingAddress.city,
+              state: shippingAddress.state,
+              pincode: shippingAddress.pincode,
+            }
+          : undefined,
       });
 
       if (!result.success) {
@@ -50,7 +75,7 @@ export default function CashPayment({
       }
 
       setIsProcessing(false);
-      onSuccess(result.data.id);
+      onSuccess(result.orderId!);
     } catch (err: any) {
       setError(err.message || "Failed to process order. Please try again.");
       setIsProcessing(false);
@@ -65,11 +90,16 @@ export default function CashPayment({
             <span className="text-lg">💵</span>
           </div>
           <div>
-            <h4 className="text-sm font-black text-charcoal">Cash on Delivery</h4>
+            <h4 className="text-xs font-black uppercase tracking-wider text-charcoal">
+              Cash on Delivery
+            </h4>
             <p className="text-xs text-charcoal/60 mt-1 leading-relaxed text-pretty">
               Pay with cash when your order arrives.
               {codFee > 0 && (
-                <span className="text-amber-600 font-bold"> A fee of Rs. {codFee} applies.</span>
+                <span className="text-amber-600 font-bold">
+                  {" "}
+                  A fee of Rs. {codFee} applies.
+                </span>
               )}
             </p>
           </div>
@@ -78,7 +108,9 @@ export default function CashPayment({
 
       <div className="bg-primary/5 border border-primary/10 rounded-xl p-4">
         <p className="text-xs text-charcoal/70 leading-relaxed">
-          By confirming your order, you agree to pay the total amount in cash upon delivery. Our delivery partner will collect the payment at your doorstep.
+          By confirming your order, you agree to pay the total amount in cash
+          upon delivery. Our delivery partner will collect the payment at your
+          doorstep.
         </p>
       </div>
 
@@ -92,11 +124,11 @@ export default function CashPayment({
         <button
           onClick={handleConfirmOrder}
           disabled={isProcessing}
-          className="w-full bg-primary hover:bg-primary/95 text-white font-black text-sm py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full bg-primary hover:bg-primary/95 text-white font-black text-xs uppercase tracking-wider py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isProcessing ? (
             <>
-              <Loader2 size={18} className="animate-spin" />
+              <Loader2 size={16} className="animate-spin" />
               Processing...
             </>
           ) : (

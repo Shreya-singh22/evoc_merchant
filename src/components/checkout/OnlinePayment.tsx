@@ -100,7 +100,6 @@ export default function OnlinePayment({
 
       if (!orderResult.success) throw new Error("Failed to create order");
 
-      // Use the actual order ID returned from DB for PayU transaction
       const orderId = orderResult.data.id;
 
       const formattedAmount = totalAmount.toFixed(2);
@@ -141,8 +140,6 @@ export default function OnlinePayment({
 
       window.bolt.launch(payuData, {
         responseHandler: async (boltResponse: PayUResponse) => {
-          console.log("Raw PayU Response:", boltResponse);
-
           // Immediately clear processing state for better UX
           setIsProcessing(false);
 
@@ -151,28 +148,25 @@ export default function OnlinePayment({
 
           // Check for success using both 'status' and 'txnStatus' for compatibility
           if (res && (res.status === "success" || res.txnStatus === "SUCCESS")) {
-            console.log("Payment successful, updating order...");
             // Update order in background (don't await for better UX)
             updateOrder(orderId, {
               status: "PAID",
               payuTxnId: res.mihpayid || "",
               payuStatus: "success",
-            }).catch(console.error);
+            }).catch(() => {});
             onSuccess(orderId);
           } else {
-            console.warn("Payment failed or cancelled:", res);
             updateOrder(orderId, {
               status: "FAILED",
               payuStatus: "failure",
-            }).catch(console.error);
+            }).catch(() => {});
             setError(res?.error_Message || "Payment failed or was cancelled.");
             onFailure();
           }
 
           launchAttemptedRef.current = false;
         },
-        catchException: (err: Error) => {
-          console.error("PayU Exception:", err);
+        catchException: () => {
           setError("Payment modal closed or failed to load.");
           onFailure();
           launchAttemptedRef.current = false;
@@ -221,16 +215,16 @@ export default function OnlinePayment({
         <button
           onClick={handlePayNow}
           disabled={isProcessing}
-          className="w-full bg-charcoal hover:bg-charcoal/90 text-white font-black text-sm py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+          className="w-full bg-charcoal hover:bg-charcoal/90 text-white font-black text-xs uppercase tracking-wider py-4 rounded-xl cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
         >
           {isProcessing ? (
             <>
-              <Loader2 size={18} className="animate-spin" />
-              Redirecting to Payment...
+              <Loader2 size={16} className="animate-spin" />
+              Redirecting...
             </>
           ) : (
             <>
-              <CreditCard size={18} />
+              <CreditCard size={16} />
               Pay Now - ₹{totalAmount.toLocaleString()}
             </>
           )}

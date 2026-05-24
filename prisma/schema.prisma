@@ -78,3 +78,14 @@ model OtpVerification {
   @@index([phone])
   @@index([userId])
 }
+
+model CheckoutSession {
+  id        String   @id @default(cuid())
+  phone     String
+  deviceId  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone, deviceId])
+  @@index([expiresAt])
+}
