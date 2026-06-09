@@ -37,6 +37,33 @@ export async function createOrder(data: unknown): Promise<CreateOrderResult> {
     },
   });
 
+  // Sync to backend dashboard (Orbit-360 / backend)
+  try {
+    const backendPayload = {
+      items: validated.items.map((i: any) => ({
+        id: i.id || i.productId,
+        name: i.title || i.name || "Product",
+        quantity: i.quantity || 1,
+        price: i.price || 0,
+      })),
+      customer: {
+        firstName: validated.firstName || "Guest",
+        lastName: validated.lastName || "User",
+        email: validated.email || "guest@example.com",
+      },
+      total: validated.totalAmount,
+      paymentMethod: validated.paymentMethod === "COD" ? "cod" : (validated.paymentMethod || "cod").toLowerCase(),
+    };
+    
+    await fetch("http://localhost:5002/api/storefront/public/moonstruck/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(backendPayload)
+    });
+  } catch (err) {
+    console.error("Failed to sync order to backend dashboard", err);
+  }
+
   return { success: true, data: order };
 }
 
